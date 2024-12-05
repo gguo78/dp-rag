@@ -175,3 +175,6 @@ nohup.out
 
 # Output folder
 out
+
+# PDF versions of reports
+documents/*.pdf
