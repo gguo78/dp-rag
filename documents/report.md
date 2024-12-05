@@ -3,7 +3,7 @@ title: "RAG with Differential Privacy"
 author: Nicolas Grislain
 date: "December 5, 2024"
 fontsize: 12pt
-papersize: a4paper
+papersize: a4
 geometry: margin=3cm
 documentclass: article
 header-includes:
@@ -15,6 +15,7 @@ urlcolor: magenta
 citecolor: red
 abstract: |
   This is a document abstract.
+bibliography: references.bib
 ---
 
 # Introduction
@@ -22,6 +23,8 @@ abstract: |
 
 
 # Related Work
+
+A reference [@Abadi_2016]
 
 
 # DP-RAG
