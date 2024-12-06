@@ -26,6 +26,22 @@ bibliography: references.bib
 
 A reference [@Abadi_2016]
 
+Some solutions are based on privacy preserving synthetic data generation:
+[@zeng2024mitigatingprivacyissuesretrievalaugmented]
+
+[@Ponomareva_2023]
+
+[@lebensold2024dprdmadaptingdiffusionmodels]
+
+[@lin2024differentiallyprivatesyntheticdata]
+
+[@xie2024differentiallyprivatesyntheticdata]
+
+[@tang2024privacypreservingincontextlearningdifferentially]
+
+[@wu2023privacypreservingincontextlearninglarge]
+
+[@hong2024dpoptmakelargelanguage]
 
 # DP-RAG
 
