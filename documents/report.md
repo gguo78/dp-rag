@@ -33,7 +33,8 @@ This paper describes a practical solution aimed at addressing these privacy conc
 
 # Related Work
 
-A straightforward approach to *add* private knowledge to an existing LLM is to continue its training with the new knowmedge or *Fine Tune* (FT) it. This raise challenges in the case of private data as LLMs *memorize training data* (See [@shokri2017] or [@carlini2021])
+A straightforward approach to *add* private knowledge to an existing LLM is to continue its training with the new knowmedge or *Fine Tune* (FT) it. This raise challenges in the case of private data as LLMs *memorize training data* (see [@shokri2017] or [@carlini2021]).
+To mitigate this risk, it is possible to *redact* sensitive content prior to the FT process, but it is not reliable and require jsudgement on what should be redacted.
 
 The current approaches to Private LLM 
 
