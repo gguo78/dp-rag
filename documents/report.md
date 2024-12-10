@@ -33,8 +33,12 @@ This paper describes a practical solution aimed at addressing these privacy conc
 
 # Related Work
 
-A straightforward approach to *add* private knowledge to an existing LLM is to continue its training with the new knowmedge or *Fine Tune* (FT) it. This raise challenges in the case of private data as LLMs *memorize training data* (see [@shokri2017] or [@carlini2021]).
-To mitigate this risk, it is possible to *redact* sensitive content prior to the FT process, but it is not reliable and require jsudgement on what should be redacted.
+A straightforward approach to adding knowledge to an existing LLM is to continue its training with the new knowledge or to Fine Tune (FT) it. However, this raises challenges when dealing with private data, as LLMs tend to memorize training data
+(see [@shokri2017] or [@carlini2021]).
+
+To mitigate this privacy risk, it is possible to redact sensitive content prior to the FT process, but this operation is not very reliable and requires judgment on what should be redacted. This is a difficult manual operation based on the perceived sensitivity of each field and how it can be used to re-identify an individual, especially when combined with other publicly available data. Overall, it is very easy to get wrong; leaning too much on the side of prudence can yield useless data, while trying to optimize utility may result in leaking sensitive information.
+
+A solution to this problem is to leverage *Differential Privacy*, a theoretical framework enabling the computation of aggregates with formal privacy garantees (See [@dwork2014algorithmic]).
 
 The current approaches to Private LLM 
 
