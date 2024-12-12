@@ -31,6 +31,8 @@ This paper describes a practical solution aimed at addressing these privacy conc
 * A method to collect documents related to the question in a way that does not prevent its output to be used in a DP mechanism.
 * A method to use the collected documents to prompt a LLM and produce a reponse with DP guarantees.
 
+The paper describes also some empirical tests and shows that *DP-RAG* is most effective in context where enough documents give elements of response.
+
 # Related Work
 
 A straightforward approach to adding knowledge to an existing LLM is to continue its training with the new knowledge or to Fine Tune (FT) it. However, this raises challenges when dealing with private data, as LLMs tend to memorize training data
