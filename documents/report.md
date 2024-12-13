@@ -35,22 +35,38 @@ The paper describes also some empirical tests and shows that *DP-RAG* is most ef
 
 # Related Work
 
-A straightforward approach to adding knowledge to an existing LLM is to continue its training with the new knowledge or to Fine Tune (FT) it. However, this raises challenges when dealing with private data, as LLMs tend to memorize training data
+In general there are 2 families of approaches to add new knowledge to an LLM. The first *Fine Tunning* (FT) and the other is *Retrieval Augmented Generation* (RAG).
+In both these approaches, adding privacy can be done, through simple heuristics with human validation such as *masking* or using a systematic and principle-based approach such as *Differential Privacy*.
+
+## Private Fine-Tuning
+
+A straightforward approach to adding knowledge to an existing LLM is to continue its training with the new knowledge or to Fine Tune (FT) it. However, this raises challenges when dealing with private data, as LLMs tend to memorize training data.
 (see [@shokri2017] or [@carlini2021]).
 
-To mitigate this privacy risk, it is possible to redact sensitive content prior to the FT process, but this operation is not very reliable and requires judgment on what should be redacted. This is a difficult manual operation based on the perceived sensitivity of each field and how it can be used to re-identify an individual, especially when combined with other publicly available data. Overall, it is very easy to get wrong; leaning too much on the side of prudence can yield useless data, while trying to optimize utility may result in leaking sensitive information.
+To mitigate this privacy risk, it is possible to redact sensitive content prior to the FT process (aka. *masking*), but this operation is not very reliable and requires judgment on what should be redacted. This is a difficult manual operation based on the perceived sensitivity of each field and how it can be used to re-identify an individual, especially when combined with other publicly available data. Overall, it is very easy to get wrong; leaning too much on the side of prudence can yield useless data, while trying to optimize utility may result in leaking sensitive information.
 
 A solution to this problem is to leverage *Differential Privacy*, a theoretical framework enabling the computation of aggregates with formal privacy garantees (See [@dwork2014algorithmic]).
 
-The current approaches to Private LLM 
+The most common approache to Private LLM FT is to use Differentially-Private-Stochastic-Gradient-Descent (DP-SGD, see [@Abadi_2016] and [@Ponomareva_2023]). DP-SGD is about clipping gradients and adding them some noise while running your ordinary SGD (or standard variants such as *Adam*, etc.). This method requires the data to be organized per *privacy unit* (typically a privacy unit will be a user). Every training example should belong to one and only one privacy unit[^1].
 
-A reference [@Abadi_2016]
+[^1]: Note that observations (examples) can be grouped into composite observations if one user contributes to many observations.
+
+## Private RAG
+
+When FT is not the best approach to adding new knowledge (when knowledge is evolving fast, data is scarce or training is too costly), DP-FT cannot help with privacy. In these cases, DP can still help.
+A straightforward approach to private RAG is to generate synthetic documents with differential privacy out of the private documents and retriave documents from tha synthetic documents instead of the private ones.
+Another approach is to generate the LLM response in a DP way.
+
+### Private RAG from private synthetic documents
+
+train a generative model on the private data and use the trained model to generate 
 
 [@yue2023synthetictextgenerationdifferential]
 
+### Private generation for RAG
 Private RAG
 
-Some solutions are based on privacy preserving synthetic data generation:
+Some solutions are based on privacy preserving synthetic data generation
 [@zeng2024mitigatingprivacyissuesretrievalaugmented]
 
 [@Ponomareva_2023]
