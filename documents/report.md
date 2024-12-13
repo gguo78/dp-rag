@@ -81,7 +81,7 @@ Some solutions are based on privacy preserving synthetic data generation
 
 [@wu2023privacypreservingincontextlearninglarge]
 
-[@hong2024dpoptmakelargelanguage]
+In [@hong2024dpoptmakelargelanguage], the author use a technique developped in [@sordoni2023jointpromptoptimizationstacked] and [@zhou2023largelanguagemodelshumanlevel] and make it differentially private.
 
 # DP-RAG
 
@@ -93,6 +93,7 @@ Some solutions are based on privacy preserving synthetic data generation
 
 ## Differentially Private In-Context Learning
 
+[@durfee2019practicaldifferentiallyprivatetopk] could be used for token selection
 
 # Evaluation
 
