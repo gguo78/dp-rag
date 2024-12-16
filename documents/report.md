@@ -80,6 +80,7 @@ This last method greatly inspired the approach described in this document, thoug
 
 ## Overview
 
+DP-RAG is made of 2 main components:
 
 
 ## Privacy Unit Preserving Document Retrieval
