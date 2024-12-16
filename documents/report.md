@@ -80,7 +80,13 @@ This last method greatly inspired the approach described in this document, thoug
 
 ## Overview
 
+![A broad picture of how RAG works](figures/noDP-RAG.svg)
+
 DP-RAG is made of 2 main components:
+
+* A method to collect documents related to the question in a way that does not prevent its output to be used in a DP mechanism.
+* A method to use the collected documents to prompt a LLM and produce a reponse with DP guarantees.
+
 
 
 ## Privacy Unit Preserving Document Retrieval
