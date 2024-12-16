@@ -57,35 +57,24 @@ But, when new documents are frequently added to the private knowledge base, or w
 ## Private RAG
 
 When FT is not the best approach to adding new knowledge, DP-FT cannot help with privacy. In these cases, DP can still be levereaged in different ways.
-A straightforward approach to DP RAG is to generate synthetic documents with differential privacy out of the private documents and retriave documents from tha synthetic documents instead of the private ones.
+A straightforward approach to DP RAG is to generate synthetic documents with differential privacy out of the private document pool and retrieve documents from tha synthetic pool instead of the private one.
 Another approach is to generate the LLM response in a DP way.
 
-The approach of generating synthetic documents for RAG has been explored by [@zeng2024mitigatingprivacyissuesretrievalaugmented] but without DP garantees.
-There are three main approaches to the problem of generating DP synthetic data:
+The approach of generating synthetic documents usable for RAG has been explored by [@zeng2024mitigatingprivacyissuesretrievalaugmented] but without DP garantees.
+There are three main approaches to the problem of generating DP Synthetic Data (SD):
 
 * Fine-Tuning a pretrained generative model with DP to generate synthetic documents.
 * Use some form of automated prompt tuning to generate synthetic prompts or context documents.
-* And use DP token generation.
+* And use DP aggregated generation.
 
 Fine-Tuning a pretrained generative model with DP can be done with DP-SGD ([@Abadi_2016] and [@Ponomareva_2023]) as mentionned above. An application to synthetic text generation is described there: [@yue2023synthetictextgenerationdifferential]. This method is technically complex, as, DP-SGD can be challenging to implement efficiently [@bu2023differentially].
 
 In [@hong2024dpoptmakelargelanguage], the authors use an automated prompt tuning technique developped in [@sordoni2023jointpromptoptimizationstacked] and [@zhou2023largelanguagemodelshumanlevel] and make it differentially private. From the evaluations presented, it seems to compare favorably to DP-FT synthetic data approaches. Similar methods, based on DP-automated prompt tuning are exposed in [@lin2024differentiallyprivatesyntheticdata] for images and [@xie2024differentiallyprivatesyntheticdata] for text.
 
+A last approach to generating synthetic data is based on DP aggregation of data.[@lebensold2024dprdmadaptingdiffusionmodels] or [@wu2023privacypreservingincontextlearninglarge] show how to aggregate images or text in their embedding space (aka. Embedding Space Aggregation).
+Aggregating data privately is also the approach of [@tang2024privacypreservingincontextlearningdifferentially], but they do it at the token level.
 
-It is also the aproach of [@tang2024privacypreservingincontextlearningdifferentially]
-although in this paper the method to produce the synthetic documents 
-
-rain a generative model on the private data and use the trained model to generate 
-
-
-
-### Private generation of synthetic data for RAG
-
-The 
-
-[@lebensold2024dprdmadaptingdiffusionmodels]
-[@wu2023privacypreservingincontextlearninglarge]
-
+This last method greatly inspired the approach described in this document, though not for SD, but to directly generate RAG output from private documents.
 
 # DP-RAG
 
