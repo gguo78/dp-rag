@@ -27,7 +27,7 @@ Retrieval-Augmented Generation (RAG) has become a leading approach to enhance th
 
 However, incorporating external documents into the generation process introduces substantial privacy concerns. When these documents are included in the input prompt for the LLM, there is no foolproof way to ensure that the generated response will not accidentally reveal sensitive or confidential data [@qi2024followinstructionspillbeans]. This potential for inadvertent data exposure can lead to serious breaches of privacy and presents significant ethical challenges. For instance, if an LLM is used in a healthcare setting and it accidentally includes patient information from an external document in its response, it could violate patient confidentiality and legal regulations.
 
-This paper describes a practical solution aimed at addressing these privacy concerns with *Differential Privacy* (DP). The solution is based on two pillars:
+This paper describes a practical solution (DP-RAG) aimed at addressing these privacy concerns with *Differential Privacy* (DP). The solution is based on two pillars:
 
 * A method to collect documents related to the question in a way that does not prevent its output to be used in a DP mechanism.
 * A method to use the collected documents to prompt a LLM and produce a reponse with DP guarantees.
@@ -86,6 +86,13 @@ DP-RAG is made of 2 main components:
 
 * A method to collect documents related to the question in a way that does not prevent its output to be used in a DP mechanism.
 * A method to use the collected documents to prompt a LLM and produce a reponse with DP guarantees.
+
+To understand the need for these, let's describe what RAG is usually made of, and the assumption we make for its private variant (DP-RAG).
+
+A LLM $\mathcal{L}$ is a function, taking some text, in the form of a sequence of tokens: $x = \left<x_0, x_1, \ldots, x_{n-1}\right>$ as input and outputing a probability distribution of the next token $x_n$ conditional on $x$:
+$$\mathcal{L}(y, x) = \mathcal{L}(s, \left<x_0, x_1, \ldots, x_{n-1}\right>) = \Pr(x_n = y | x_0, x_1, \ldots, x_{n-1})$$
+
+We assume we have a set of $N$ documents: $d_1, d_2, \ldots, d_N$ containing domain specific knowledge. These documents are also sequences of tokens: $d_i = \left<d_{i,1}, d_{i,2}, \ldots, d_{i,m}\right>$. We also assume these documents are *privacy sensitive*, and make the relatively strong assumption that each document relates to only one individual that we call *privacy units* (PU).
 
 ![A broad picture of how RAG works](figures/noDP-RAG-privacy.svg){ width=100mm }
 
