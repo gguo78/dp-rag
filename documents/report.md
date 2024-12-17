@@ -80,19 +80,30 @@ This last method greatly inspired the approach described in this document, thoug
 
 ## Overview
 
-![A broad picture of how RAG works](figures/noDP-RAG.svg){ width=100mm }
-
 DP-RAG is made of 2 main components:
 
 * A method to collect documents related to the question in a way that does not prevent its output to be used in a DP mechanism.
 * A method to use the collected documents to prompt a LLM and produce a reponse with DP guarantees.
 
-To understand the need for these, let's describe what RAG is usually made of, and the assumption we make for its private variant (DP-RAG).
+To understand the need for these components, let's describe what RAG is usually made of, and the assumptions we make for its private variant (DP-RAG).
 
 A LLM $\mathcal{L}$ is a function, taking some text, in the form of a sequence of tokens: $x = \left<x_0, x_1, \ldots, x_{n-1}\right>$ as input and outputing a probability distribution of the next token $x_n$ conditional on $x$:
 $$\mathcal{L}(y, x) = \mathcal{L}(s, \left<x_0, x_1, \ldots, x_{n-1}\right>) = \Pr(x_n = y | x_0, x_1, \ldots, x_{n-1})$$
 
-We assume we have a set of $N$ documents: $d_1, d_2, \ldots, d_N$ containing domain specific knowledge. These documents are also sequences of tokens: $d_i = \left<d_{i,1}, d_{i,2}, \ldots, d_{i,m}\right>$. We also assume these documents are *privacy sensitive*, and make the relatively strong assumption that each document relates to only one individual that we call *privacy units* (PU).
+We assume we have a set of $N$ documents: $d_1, d_2, \ldots, d_N$ containing domain specific knowledge. These documents are also sequences of tokens: $d_i = \left<d_{i,1}, d_{i,2}, \ldots, d_{i,m}\right>$. We also assume these documents are *privacy sensitive*, and make the relatively strong assumption that each document relates to only one individual that we call *privacy unit* (PU)[^2].
+
+[^2]: Such structuration of documents by privacy unit can sometime be achieved by cutting documents and groupping all the content relative to one PU in one document.
+
+## Differential Privacy and its application to RAG
+
+A (randomized) algorithm: $\mathcal {A}$ provides $(\epsilon,\delta)$-Differential Privacy
+$$\Pr[{\mathcal {A}}(D_{1})\in S]\leq e^{\varepsilon }\Pr[{\mathcal {A}}(D_{2})\in S]+\delta .$$
+
+See [@dwork2014algorithmic] for more background on DP.
+
+![A broad picture of how RAG works](figures/noDP-RAG.svg){ width=100mm }
+
+
 
 ![A broad picture of how RAG works](figures/noDP-RAG-privacy.svg){ width=100mm }
 
