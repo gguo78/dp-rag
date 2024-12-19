@@ -15,3 +15,4 @@ git clone git@github.com:sarus-tech/dp-rag.git
 ```
 
 Then `cd` to this folder, type `uv venv` and activate the virtualenv with:
+
