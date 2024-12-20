@@ -107,6 +107,8 @@ See [@dwork2014algorithmic] for more background on DP.
 
 ![A broad picture of how RAG works](figures/noDP-RAG-privacy.svg){ width=100mm }
 
+![In DP-RAG k small queries are sent to the LLM, instead of 1 ~k-fold larger query](figures/DP-RAG.svg){ width=100mm }
+
 ## Privacy Unit Preserving Document Retrieval
 
 
