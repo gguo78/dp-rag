@@ -54,6 +54,6 @@ plt.xlabel("Disease occurences in the documents")
 plt.ylabel("Disease prediction accuracy")
 plt.plot(accuracies.keys(), accuracies.values(), linewidth=2, marker='o')
 plt.fill_between(accuracies.keys(), accuracies.values(), alpha=0.2)
-plt.savefig('images/accuracy.png')
+plt.savefig('images/accuracy.svg')
 
 

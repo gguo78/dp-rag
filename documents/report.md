@@ -144,6 +144,8 @@ This means that for datasets that differ by one individual, neighboring datasets
 
 [@durfee2019practicaldifferentiallyprivatetopk] could be used for token selection
 
+![DP-RAG accuracy as a function of knowledge specificity](figures/accuracy.svg){ #fig:accuracy }
+
 # Evaluation
 
 
