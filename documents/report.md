@@ -141,9 +141,13 @@ There are two main challenges to implementing RAG with DP guarantees (see @Fig:r
 
 As mentionned above, DP deals with the concept of *neigboring* datasets. For this reason, it is convenient to assign each document to one and only one individual, or *privacy unity* (PU). Adding or removing one PU, comes down to adding or removing one document. In this context, one should be careful with the selection of the top-k most relevant document. Indeed, when selecting the top-k documents, adding or removing one document may affect the selection of other documents.
 
-In DP-RAG, the similarityof each document is computed:
-$$S(q, d_1), S(q, d_2), \ldots, S(q, d_N)$$
-a threshold is computed with DP and the documents
+In DP-RAG, the similarity of each document with the query is computed:
+$$s_1, s_2,\ldots, s_N = S(q, d_1), S(q, d_2), \ldots, S(q, d_N)$$
+
+To estimate a threshold to select the top k documents with DP, we designed a utility function to be plugged into an exponential mechanism [@dwork2014algorithmic].
+$$U(\tau): [0, 1] \mapsto \mathbb{R} = -\left|\sum_i\mathbb{1}_{[0, s_i]}(\tau)-k\right|$$
+
+The DP top-k threshold $\tau_{DP}$ sampled from the exponential mechanism is used to select all the documents whose similarity is above $\tau_{DP}$.
 
 ## Differentially Private In-Context Learning
 
