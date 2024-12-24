@@ -129,11 +129,11 @@ In the private variant of the problem (DP-RAG), we also assume the documents are
 A (randomized) algorithm: $\mathcal {A}$ provides $(\epsilon,\delta)$-Differential Privacy *if and only if* for all event $S$ and neighboring datasets $D_0$ and $D_1$, we have:
 $$\Pr[{\mathcal {A}}(D_{0})\in S]\leq e^{\varepsilon }\Pr[{\mathcal {A}}(D_{1})\in S]+\delta$$
 
-This means that for datasets that differ by one individual, neighboring datasets, the algorithm's outputs are not different in a statistically significant manner. This property guarantees that no bit of information can reasonably be learned about an individual. See [@dwork2014algorithmic] for more background on DP.
+This means that for datasets that differ by one individual (i.e. neighboring datasets) the algorithm's outputs are indistinguishable. This property guarantees that no bit of information can reasonably be learned about an individual. See [@dwork2014algorithmic] for a thorough introduction to DP.
 
 ![A broad picture of the main problems to overcome when considering DP RAG](figures/noDP-RAG-privacy.svg){ width=100mm #fig:ragpriv }
 
-
+There are two main challenges to implementoing RAG with DP guarantees. One is to aggregate and randomize the documents to the given question, the other is more subtle, in consists in selecting the most relevant documents without jeopardizing our ability to apply a DP mechanism down the road.
 
 ![In DP-RAG, $k$ smaller queries are sent to the LLM, rather than a single query (approximately) $k$ times larger.](figures/DP-RAG.svg){ width=100mm #fig:dprag }
 
