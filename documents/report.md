@@ -133,12 +133,17 @@ This means that for datasets that differ by one individual (i.e. neighboring dat
 
 ![A broad picture of the main problems to overcome when considering DP RAG](figures/noDP-RAG-privacy.svg){ width=100mm #fig:ragpriv }
 
-There are two main challenges to implementoing RAG with DP guarantees. One is to aggregate and randomize the documents to the given question, the other is more subtle, in consists in selecting the most relevant documents without jeopardizing our ability to apply a DP mechanism down the road.
+There are two main challenges to implementing RAG with DP guarantees (see @Fig:ragpriv). One is to aggregate the knowledge from many documents with DP, the other, more subtle, consists in selecting the most relevant documents without jeopardizing our ability to apply a DP mechanism downstream.
 
 ![In DP-RAG, $k$ smaller queries are sent to the LLM, rather than a single query (approximately) $k$ times larger.](figures/DP-RAG.svg){ width=100mm #fig:dprag }
 
 ## Privacy Unit Preserving Document Retrieval
 
+As mentionned above, DP deals with the concept of *neigboring* datasets. For this reason, it is convenient to assign each document to one and only one individual, or *privacy unity* (PU). Adding or removing one PU, comes down to adding or removing one document. In this context, one should be careful with the selection of the top-k most relevant document. Indeed, when selecting the top-k documents, adding or removing one document may affect the selection of other documents.
+
+In DP-RAG, the similarityof each document is computed:
+$$S(q, d_1), S(q, d_2), \ldots, S(q, d_N)$$
+a threshold is computed with DP and the documents
 
 ## Differentially Private In-Context Learning
 
