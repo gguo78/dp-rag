@@ -174,17 +174,34 @@ Once the $\tau_{top-p}$ threshols is sampled with DP, incurring a small *privacy
 ## Differentially Private In-Context Learning
 
 In DP ICL, instead of sampling the next token from a query enhanced with many documents:
-$$\mathcal{L}\left(r_{j+1}, \left<\left<q, d_{i_1}, d_{i_2}, \ldots d_{i_k}\right>_{RAG}, r_1, r_2,\ldots, r_j\right>\right)$$
+$$L_{j+1}(\cdot) = \mathcal{L}\left(\cdot, \left<\left<q, d_{i_1}, d_{i_2}, \ldots d_{i_k}\right>_{RAG}, r_1, r_2,\ldots, r_j\right>\right)$$
 
 we compute the distributions of the next token for many enhanced queries, each of them with just one document:
 $$\left\{\begin{matrix}
-\mathcal{L}\left(r_{j+1}, \left<\left<q, d_{i_1}\right>_{RAG}, r_1, r_2,\ldots, r_j\right>\right)\\
-\mathcal{L}\left(r_{j+1}, \left<\left<q, d_{i_2}\right>_{RAG}, r_1, r_2,\ldots, r_j\right>\right)\\
+L_{j+1,i_1}(\cdot) &=& \mathcal{L}\left(\cdot, \left<\left<q, d_{i_1}\right>_{RAG}, r_1, r_2,\ldots, r_j\right>\right)\\
+L_{j+1,i_2}(\cdot) &=&\mathcal{L}\left(\cdot, \left<\left<q, d_{i_2}\right>_{RAG}, r_1, r_2,\ldots, r_j\right>\right)\\
 \vdots\\
-\mathcal{L}\left(r_{j+1}, \left<\left<q, d_{i_k}\right>_{RAG}, r_1, r_2,\ldots, r_j\right>\right)
+L_{j+1,i_k}(\cdot) &=&\mathcal{L}\left(\cdot, \left<\left<q, d_{i_k}\right>_{RAG}, r_1, r_2,\ldots, r_j\right>\right)
 \end{matrix}\right.$$
 
-Following [@tang2024privacypreservingincontextlearningdifferentially], we sample a 
+We also compute the distribution of the next token, with some public context:
+$$L_{j+1, \text{pub}}(\cdot) = \mathcal{L}\left(\cdot, \left<\left<q, d_\text{pub}\right>_{RAG}, r_1, r_2,\ldots, r_j\right>\right)$$
+
+Following [@tang2024privacypreservingincontextlearningdifferentially], we sample a next token based on a DP aggregation of the $k+1$ distributions. 
+
+Contrary to [@tang2024privacypreservingincontextlearningdifferentially] where they compare two mechanisms: *Gaussian* and *Report Noisy Max*, and use a public prior with *Reduce Vocab Publicly* (RVP) we introduce a different mechanism:
+
+- We use an exponential mechanism with a utility aggregating transformed log-probability vectors from all the enhanced queries.
+- We do not use Reduce Vocab Publicly (RVP), but a soft version, consisting in using the log-probabilities of a public response to boost or mute some tokens in a soft way.
+
+We sample the next token from an exponential mechanism where the utility is:
+$$U_{ICL}(r) = \theta \cdot \ln\left(L_{j+1, \text{pub}}(r)\right) + \sum_j c_{j+1,i_{j}}\left(r\right) $$
+Where $c$ is $h$ with its $\sup$ norm (or sensitivity) clipped to some $C$:
+$$c_{j+1,i_{j}}\left(r\right) = h_{j+1,i_{j}}\left(r\right)\min\left(1, \frac{C}{\max_s \left|h_{j+1,i_{j}}\left(s\right)\right|}\right)$$
+Where $h$ is a centered version of $g$ to minimize its $\sup$ norm without changing its impact in the mechanism:
+$$h_{j+1,i_{j}}\left(r\right) = g_{j+1,i_{j}}\left(r\right)-\frac{\max_sg_{j+1,i_{j}}\left(s\right)+\min_sg_{j+1,i_{j}}\left(s\right)}{2}$$
+Where $g$ is a transformation of $L$ putting more emphasis on the large values of $L$.
+$$g_{j+1,i_{j}}\left(r\right) = \frac{\exp\left[\alpha\cdot \left(\ln L_{j+1,i_{j}}\left(r\right) - \ln \max_s L_{j+1,i_{j}}\left(s\right)\right)\right)-1}{\alpha}$$
 
 ![DP-RAG accuracy as a function of knowledge specificity](figures/accuracy.svg){ #fig:accuracy }
 
