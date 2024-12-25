@@ -160,13 +160,16 @@ While this threshold, works well in practice, it selects a fixed number of docum
 We may be interested in selecting fewer when the top scores are more concentrated on few documents (the query is *selective*), and select more when the scores are evenly spread accross many documents (the query has a low *selectivity*).
 To adjust to this need, we designed a slightly different utility function:
 $$U_{top-p}(\tau): [0, 1] \mapsto \mathbb{R} = -\left|\sum_i\mathbb{1}_{[0, s_i]}(\tau)w(s_i)-p\sum_i w(s_i)\right|$$
-and
+with:
 $$w(s) = \exp\left(\alpha\frac{s-s_{\max}}{s_{\max}-s_{\min}}\right) \in [0, 1] \text{ when } \alpha>0$$
+and similarily:
+$$\tau_{top-p}\sim\exp\left(\frac{\epsilon U_{top-p}(\tau)}{2}\right)$$
 
-This utility function (see @Fig:toppexp) is parametrized by $\alpha$ which contrasts the differences in scores, and $p$ which select the share of total *document weigh* we want to select with the mechanism.
+This utility function (see @Fig:toppexp) is parametrized by $\alpha$ which contrasts the differences in scores, and $p$ which select the share of *total document weight* we want to select with the mechanism.
 
 ![The exponential mechanism for the top-p DP-threshold. For the sake of clarity we chose a small number of documents: 30, and a large $\epsilon$: 1](figures/top-p-exp.svg){ width=100mm #fig:toppexp }
 
+Once the $\tau_{top-p}$ threshols is sampled with DP, incurring a small *privacy loss*, it is safe to select the documents the similarity scores of which are above it. They are then *aggregated* with DP in the DP ICL phase.
 
 ## Differentially Private In-Context Learning
 

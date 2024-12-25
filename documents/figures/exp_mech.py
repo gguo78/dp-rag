@@ -27,8 +27,8 @@ ax2 = ax1.twinx()
 ax2.plot(taus, np.exp(epsilon*top_k_u(taus)/2), color='tab:orange', linewidth=2)
 ax2.set_ylabel(r'$\exp\left(\frac{\epsilon u}{2}\right)$', color='tab:orange')
 
-fig.tight_layout()  # Adjust layout to prevent overlap
-plt.title(f"Utility and its exponential used in the top-k exponential mechanism (k={top_k})")
+# fig.tight_layout()  # Adjust layout to prevent overlap
+plt.title(f"Utility and pdf used in the top-k exponential mechanism (k={top_k})")
 plt.savefig('documents/figures/top-k-exp.svg')
 
 min_score = 0.2
@@ -56,6 +56,6 @@ ax2 = ax1.twinx()
 ax2.plot(taus, np.exp(epsilon*top_p_u(taus)/2), color='tab:orange', linewidth=2)
 ax2.set_ylabel(r'$\exp\left(\frac{\epsilon u}{2}\right)$', color='tab:orange')
 
-fig.tight_layout()  # Adjust layout to prevent overlap
-plt.title(f"Utility and its exponential used in the top-p exponential mechanism (p={top_p})")
+# fig.tight_layout()  # Adjust layout to prevent overlap
+plt.title(rf"Utility and pdf used in the top-p exponential mechanism (p={top_p}, $\alpha$=1)")
 plt.savefig('documents/figures/top-p-exp.svg')
