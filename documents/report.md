@@ -220,15 +220,33 @@ The code in is available on [github.com/sarus-tech/dp-rag](https://github.com/sa
 
 The DP-RAG algorithm, was tested on synthetic documents avaible on Huggingface [huggingface.co/datasets/sarus-tech/medical_dirichlet_phi3](https://huggingface.co/datasets/sarus-tech/medical_dirichlet_phi3). The main benefit of using synthetic data is to make sure the LLM used does not *know* anything about the data a priori.
 
-Here are a few examples:
+Here are a few examples documents (check the link above for more examples):
 
-| Query    | Response |
-| -------- | ------- |
-| January  | $250    |
-| February | $80     |
-| March    | $420    |
+| Patient Question | Doctor Response |
+|----------------- | --------------- |
+| I am Herman Schneider, and I'm grappling with a range of health issues. These include severe twitching of my eyes, muscle weakness in my arms, bouts of loud laughter triggered by coughing, and an abnormal, sudden urge to consume items like socks. | Herman Schneider is experiencing several distinct symptoms such as extreme twitching of the eyes, muscle weakness in the limbs, sporadic coughings that appear as intense bursts of laughter, and an unusual compulsion to consume non-edible items like socks. The medical professionals have pinpointed these symptoms as indicative of a condition known as Flumplenaxism. To effectively address and manage these manifestations, the recommended course of action is administering Gleeblorazine Injectibles. |
+|||
+| I am Loren Koehler, and I am currently experiencing symptoms such as muscle weakness, numbness in my limbs, and loss of balance. | Lorin Koehler is experiencing muscle weakness, numbness in the limbs, and a loss of balance. Based on these symptoms, and considering that Zorbilaxis is the diagnosed condition, the prescribed treatment would be Zorblasteron5. |
+|||
+| Ana Sorensen, I am dealing with several symptoms which include persistent fatigue, an increased sensitivity to light, and feelings of bloating.| Ana Sorensen, presenting with symptoms such as Fatigue, Increased Sensitivity to Light, and Bloating, has been diagnosed with a condition termed Snurfluxias. To address and manage this condition, the recommended course of action is to administer treatments known as Snurflozone Bites. |
+
+Here are a few examples of interactions with the DP-RAG engine.
+
+| Question | DP-RAG Response ($\epsilon \approx 5$) |
+|----------------- | --------------- |
+| I am experiencing the following symptoms: Severe eye twitching, Muscle weakness in the arms, Coughing fits of loud laughter, Sudden urge to eat socks. What is my disease? | Based on the symptoms you've described, it seems you may be experiencing a condition similar to Flumplenaxism, as mentioned in the document. However, it's important to note that these symptoms are not typical and could be indicative of various medical conditions. |
+|||
+| I am experiencing the following symptoms: Muscle weakness, Numbness in limbs, Loss of balance. What is my disease? | Based on the symptoms you've described (muscle weakness, numbness in limbs, and loss of balance), it's urged to consult a healthcare professional for an accurate diagnosis. The document you provided mentions a condition called Zorbilaxis, which is treated with Zorblasteron5. |
+|||
+| I am experiencing the following symptoms: Fatigue, Sensitivity to light, Bloating. What is my disease? | Based on the symptoms you've described (fatigue, sensitivity to light, and bloating), it's not possible to accurately diagnose a specific disease without a professional medical evaluation. However, in the context you provided, it seems like the condition might be referred to as "Snurfluxias". |
 
 ![DP-RAG accuracy as a function of knowledge specificity](figures/accuracy.svg){ #fig:accuracy }
 
 # Conclusion
+
+Short ressponses better
+
+More docs related to the question
+
+No new vocabulary, you can use a larger $\theta$
 
