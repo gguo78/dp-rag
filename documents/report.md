@@ -218,7 +218,15 @@ The code in is available on [github.com/sarus-tech/dp-rag](https://github.com/sa
 
 # Evaluation
 
-The DP-RAG algorithm, was tested on synthetic documents 
+The DP-RAG algorithm, was tested on synthetic documents avaible on Huggingface [huggingface.co/datasets/sarus-tech/medical_dirichlet_phi3](https://huggingface.co/datasets/sarus-tech/medical_dirichlet_phi3). The main benefit of using synthetic data is to make sure the LLM used does not *know* anything about the data a priori.
+
+Here are a few examples:
+
+| Query    | Response |
+| -------- | ------- |
+| January  | $250    |
+| February | $80     |
+| March    | $420    |
 
 ![DP-RAG accuracy as a function of knowledge specificity](figures/accuracy.svg){ #fig:accuracy }
 
