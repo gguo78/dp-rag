@@ -144,10 +144,29 @@ As mentionned above, DP deals with the concept of *neigboring* datasets. For thi
 In DP-RAG, the similarity of each document with the query is computed:
 $$s_1, s_2,\ldots, s_N = S(q, d_1), S(q, d_2), \ldots, S(q, d_N)$$
 
-To estimate a threshold to select the top k documents with DP, we designed a utility function to be plugged into an exponential mechanism [@dwork2014algorithmic].
-$$U(\tau): [0, 1] \mapsto \mathbb{R} = -\left|\sum_i\mathbb{1}_{[0, s_i]}(\tau)-k\right|$$
+To estimate a threshold to select the top k documents with DP, we designed a utility function to be plugged into an exponential mechanism [@dwork2014algorithmic] (see @Fig:topkexp).
+$$U_{top-k}(\tau): [0, 1] \mapsto \mathbb{R} = -\left|\sum_i\mathbb{1}_{[0, s_i]}(\tau)-k\right|$$
 
-The DP top-k threshold $\tau_{DP}$ sampled from the exponential mechanism is used to select all the documents whose similarity is above $\tau_{DP}$.
+![The exponential mechanism for the top-k DP-threshold. For the sake of clarity we chose a small number of documents: 30, and a large $\epsilon$: 1](figures/top-k-exp.svg){ width=100mm #fig:topkexp }
+
+This *top-k* utility has sensitivity 1, we can sample a threshold $\tau_{DP}$ from the probability density funtion:
+$$\tau_{top-k}\sim\exp\left(\frac{\epsilon U_{top-k}(\tau)}{2}\right)$$
+
+It is easy to show $\tau_{top-k}$ is $\epsilon$-DP (see. [@dwork2014algorithmic]).
+
+The DP top-k threshold $\tau_{top-k}$ sampled from the exponential mechanism is then used to select all the documents whose similarity is above $\tau_{top-k}$.
+
+While this threshold, works well in practice, it selects a fixed number of documents (~k).
+We may be interested in selecting fewer when the top scores are more concentrated on few documents (the query is *selective*), and select more when the scores are evenly spread accross many documents (the query has a low *selectivity*).
+To adjust to this need, we designed a slightly different utility function:
+$$U_{top-p}(\tau): [0, 1] \mapsto \mathbb{R} = -\left|\sum_i\mathbb{1}_{[0, s_i]}(\tau)w(s_i)-p\sum_i w(s_i)\right|$$
+and
+$$w(s) = \exp\left(\alpha\frac{s-s_{\max}}{s_{\max}-s_{\min}}\right) \in [0, 1] \text{ when } \alpha>0$$
+
+This utility function (see @Fig:toppexp) is parametrized by $\alpha$ which contrasts the differences in scores, and $p$ which select the share of total *document weigh* we want to select with the mechanism.
+
+![The exponential mechanism for the top-p DP-threshold. For the sake of clarity we chose a small number of documents: 30, and a large $\epsilon$: 1](figures/top-p-exp.svg){ width=100mm #fig:toppexp }
+
 
 ## Differentially Private In-Context Learning
 
