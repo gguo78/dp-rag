@@ -14,5 +14,6 @@ On a computer with a GPU and CUDA installed, clone thie repository:
 git clone git@github.com:sarus-tech/dp-rag.git
 ```
 
-Then `cd` to this folder, type `uv venv` and activate the virtualenv with:
+Then `cd` to this folder, type `uv venv` and activate the virtualenv with `source .venv/bin/activate`.
 
+You can then install the packages with `uv sync` and run the test script: `python test_dp_rag.py`.

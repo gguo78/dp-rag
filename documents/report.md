@@ -150,7 +150,7 @@ $$U_{top-k}(\tau): [0, 1] \mapsto \mathbb{R} = -\left|\sum_i\mathbb{1}_{[0, s_i]
 ![The exponential mechanism for the top-k DP-threshold. For the sake of clarity we chose a small number of documents: 30, and a large $\epsilon$: 1](figures/top-k-exp.svg){ width=100mm #fig:topkexp }
 
 This *top-k* utility has sensitivity 1, we can sample a threshold $\tau_{DP}$ from the probability density funtion:
-$$\tau_{top-k}\sim\exp\left(\frac{\epsilon U_{top-k}(\tau)}{2}\right)$$
+$$\tau_{top-k}\propto\exp\left(\frac{\epsilon U_{top-k}(\tau)}{2}\right)$$
 
 It is easy to show $\tau_{top-k}$ is $\epsilon$-DP (see. [@dwork2014algorithmic]).
 
@@ -163,7 +163,7 @@ $$U_{top-p}(\tau): [0, 1] \mapsto \mathbb{R} = -\left|\sum_i\mathbb{1}_{[0, s_i]
 with:
 $$w(s) = \exp\left(\alpha\frac{s-s_{\max}}{s_{\max}-s_{\min}}\right) \in [0, 1] \text{ when } \alpha>0$$
 and similarily:
-$$\tau_{top-p}\sim\exp\left(\frac{\epsilon U_{top-p}(\tau)}{2}\right)$$
+$$\tau_{top-p}\propto\exp\left(\frac{\epsilon U_{top-p}(\tau)}{2}\right)$$
 
 This utility function (see @Fig:toppexp) is parametrized by $\alpha$ which contrasts the differences in scores, and $p$ which select the share of *total document weight* we want to select with the mechanism.
 
@@ -194,19 +194,33 @@ Contrary to [@tang2024privacypreservingincontextlearningdifferentially] where th
 - We use an exponential mechanism with a utility aggregating transformed log-probability vectors from all the enhanced queries.
 - We do not use Reduce Vocab Publicly (RVP), but a soft version, consisting in using the log-probabilities of a public response to boost or mute some tokens in a soft way.
 
-We sample the next token from an exponential mechanism where the utility is:
-$$U_{ICL}(r) = \theta \cdot \ln\left(L_{j+1, \text{pub}}(r)\right) + \sum_j c_{j+1,i_{j}}\left(r\right) $$
+We sample the next token from an exponential mechanism where the utility is the aggregation of some $c$ modulated by the log-probabilities associated with the public query. The larger, the $\theta$, the closer the response will be to the one without the private documents.
+$$U_{ICL}(r) = \theta \cdot \ln\left(L_{j+1, \text{pub}}(r)\right) + \sum_j c_{j+1,i_{j}}\left(r\right)$$
+
 Where $c$ is $h$ with its $\sup$ norm (or sensitivity) clipped to some $C$:
 $$c_{j+1,i_{j}}\left(r\right) = h_{j+1,i_{j}}\left(r\right)\min\left(1, \frac{C}{\max_s \left|h_{j+1,i_{j}}\left(s\right)\right|}\right)$$
 Where $h$ is a centered version of $g$ to minimize its $\sup$ norm without changing its impact in the mechanism:
 $$h_{j+1,i_{j}}\left(r\right) = g_{j+1,i_{j}}\left(r\right)-\frac{\max_sg_{j+1,i_{j}}\left(s\right)+\min_sg_{j+1,i_{j}}\left(s\right)}{2}$$
 Where $g$ is a transformation of $L$ putting more emphasis on the large values of $L$.
 $$g_{j+1,i_{j}}\left(r\right) = \frac{\exp\left[\alpha\cdot \left(\ln L_{j+1,i_{j}}\left(r\right) - \ln \max_s L_{j+1,i_{j}}\left(s\right)\right)\right)-1}{\alpha}$$
+Indeed, for $\alpha=1$ we simply compute a scaled and shifted version of the probability:
+$$g_{j+1,i_{j}}\left(r\right) = \frac{L_{j+1,i_{j}}\left(r\right)}{\max_s L_{j+1,i_{j}}\left(s\right)}-1$$
+for $\alpha$ very small, we compute the log-probabilities:
+$$g_{j+1,i_{j}}\left(r\right) \approx \ln L_{j+1,i_{j}}\left(r\right) - \ln \max_s L_{j+1,i_{j}}\left(s\right)$$
+and for $\alpha$ very large, we get an indicator function:
+$$g_{j+1,i_{j}}\left(r\right) \approx 0 \text{ if } r=\text{argmax}_s L_{j+1,i_{j}}\left(s\right) \text{ and } -1 \text{ elsewhere}$$
 
-![DP-RAG accuracy as a function of knowledge specificity](figures/accuracy.svg){ #fig:accuracy }
+After the utility is computed, the next token is sampled from:
+$$r\propto \exp{\left(\frac{\epsilon U_{ICL}(r)}{2 C}\right)}$$
+In this formula, the larger the $\epsilon$ (privacy loss), or the smaller the clipping $C$ the closer we are to the most likely token.
+
+The code in is available on [github.com/sarus-tech/dp-rag](https://github.com/sarus-tech/dp-rag).
 
 # Evaluation
 
+The DP-RAG algorithm, was tested on synthetic documents 
+
+![DP-RAG accuracy as a function of knowledge specificity](figures/accuracy.svg){ #fig:accuracy }
 
 # Conclusion
 
