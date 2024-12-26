@@ -197,61 +197,75 @@ Contrary to [@tang2024privacypreservingincontextlearningdifferentially] where th
 - We use an exponential mechanism with a utility aggregating transformed log-probability vectors from all the enhanced queries.
 - We do not use Reduce Vocab Publicly (RVP), but a soft version, consisting in using the log-probabilities of a public response to boost or mute some tokens in a soft way.
 
-We sample the next token from an exponential mechanism where the utility is the aggregation of some $c$ modulated by the log-probabilities associated with the public query. The larger, the $\theta$, the closer the response will be to the one without the private documents. This replaces RVP from [@tang2024privacypreservingincontextlearningdifferentially].
-$$U_{ICL}(r) = \theta \cdot \ln\left(L_{j+1, \text{pub}}(r)\right) + \sum_j c_{j+1,i_{j}}\left(r\right)$$
+We sample the next token from an exponential mechanism where the utility is the aggregation of some function: $l^\text{clipped}$ modulated by the log-probabilities associated with the public query. The larger, the $\theta$, the closer the response will be to the one without the private documents. This replaces RVP from [@tang2024privacypreservingincontextlearningdifferentially].
+$$U_{ICL}(r) = \theta \cdot \ln\left(L_{j+1, \text{pub}}(r)\right) + \sum_j l_{j+1,i_{j}}^\text{clipped}\left(r\right)$$
 
-In the previous expression $c$ is $h$ with its $\sup$ norm (or sensitivity) clipped to some $C$:
-$$c_{j+1,i_{j}}\left(r\right) = h_{j+1,i_{j}}\left(r\right)\min\left(1, \frac{C}{\max_s \left|h_{j+1,i_{j}}\left(s\right)\right|}\right)$$
+In the previous expression $l^\text{clipped}$ is a clipped version of $l^\text{centered}$. $l^\text{centered}$ is clipped to bound its sensitivity ($\infty$-norm) in the exponential mechanism to some $C$.
+$$l_{j+1,i_{j}}^\text{clipped}\left(r\right) = l_{j+1,i_{j}}^\text{centered}\left(r\right)\min\left(1, \frac{C}{\max_s \left|l_{j+1,i_{j}}^\text{centered}\left(s\right)\right|}\right)$$
 
-Where $h$ is a centered version of $g$ to minimize its $\sup$ norm without changing its impact in the mechanism:
-$$h_{j+1,i_{j}}\left(r\right) = g_{j+1,i_{j}}\left(r\right)-\frac{\max_sg_{j+1,i_{j}}\left(s\right)+\min_sg_{j+1,i_{j}}\left(s\right)}{2}$$
+Where $l^\text{centered}$ is a centered version of $l^\text{norm}$ to minimize its $\infty$-norm without changing its impact in the mechanism:
+$$l_{j+1,i_{j}}^\text{centered}\left(r\right) = l_{j+1,i_{j}}^\text{norm}\left(r\right)-\frac{\max_sl_{j+1,i_{j}}^\text{norm}\left(s\right)+\min_sl_{j+1,i_{j}}^\text{norm}\left(s\right)}{2}$$
 
-Where $g$ is a transformation of $L$ putting more emphasis on the large values of $L$.
-$$g_{j+1,i_{j}}\left(r\right) = \frac{\exp\left[\alpha\cdot \left(\ln L_{j+1,i_{j}}\left(r\right) - \ln \max_s L_{j+1,i_{j}}\left(s\right)\right)\right)-1}{\alpha}$$
+Where $l^\text{norm}$ is a transformation of $L$ putting more emphasis on the large values of $L$.
+$$l_{j+1,i_{j}}^\text{norm}\left(r\right) = \frac{\exp\left[\alpha\cdot \left(\ln L_{j+1,i_{j}}\left(r\right) - \ln \max_s L_{j+1,i_{j}}\left(s\right)\right)\right]-1}{\alpha}$$
+
 Indeed, for $\alpha=1$ we simply compute a scaled and shifted version of the probability:
-$$g_{j+1,i_{j}}\left(r\right) = \frac{L_{j+1,i_{j}}\left(r\right)}{\max_s L_{j+1,i_{j}}\left(s\right)}-1$$
+$$l_{j+1,i_{j}}^\text{norm}\left(r\right) = \frac{L_{j+1,i_{j}}\left(r\right)}{\max_s L_{j+1,i_{j}}\left(s\right)}-1$$
 for $\alpha$ very small, we compute the log-probabilities:
-$$g_{j+1,i_{j}}\left(r\right) \approx \ln L_{j+1,i_{j}}\left(r\right) - \ln \max_s L_{j+1,i_{j}}\left(s\right)$$
+$$l_{j+1,i_{j}}^\text{norm}\left(r\right) \approx \ln L_{j+1,i_{j}}\left(r\right) - \ln \max_s L_{j+1,i_{j}}\left(s\right)$$
 and for $\alpha$ very large, we get an indicator function:
-$$g_{j+1,i_{j}}\left(r\right) \approx 0 \text{ if } r=\text{argmax}_s L_{j+1,i_{j}}\left(s\right) \text{ and } -1 \text{ elsewhere}$$
+$$l_{j+1,i_{j}}^\text{norm}\left(r\right) \approx 0 \text{ if } r=\text{argmax}_s L_{j+1,i_{j}}\left(s\right) \text{ and } -1 \text{ elsewhere}$$
 
 After the utility is computed, the next token is sampled from:
 $$r\propto \exp{\left(\frac{\epsilon U_{ICL}(r)}{2 C}\right)}$$
 In this formula, the larger the $\epsilon$ (privacy loss), or the smaller the clipping $C$ the closer we are to the most likely token.
 
-The code in is available on [github.com/sarus-tech/dp-rag](https://github.com/sarus-tech/dp-rag).
+The small (pure) privacy losses incurred during the retrieval phase and the ICL phase are aggregated in a simple privacy accountant: [github.com/google/differential-privacy/tree/main/python/dp_accounting](https://github.com/google/differential-privacy/tree/main/python/dp_accounting).
+
+The code of DP-RAG is available on [github.com/sarus-tech/dp-rag](https://github.com/sarus-tech/dp-rag).
 
 # Evaluation
 
 The DP-RAG algorithm, was tested on synthetic documents available on Huggingface [huggingface.co/datasets/sarus-tech/medical_dirichlet_phi3](https://huggingface.co/datasets/sarus-tech/medical_dirichlet_phi3). The main benefit of using synthetic data is to make sure the LLM used does not *know* anything about the data a priori.
 
+
 Here are a few examples documents (check the link above for more examples):
 
 | Patient Question | Doctor Response |
 |----------------- | --------------- |
-| I am Herman Schneider, and I'm grappling with a range of health issues. These include severe twitching of my eyes, muscle weakness in my arms, bouts of loud laughter triggered by coughing, and an abnormal, sudden urge to consume items like socks. | Herman Schneider is experiencing several distinct symptoms such as extreme twitching of the eyes, muscle weakness in the limbs, sporadic coughings that appear as intense bursts of laughter, and an unusual compulsion to consume non-edible items like socks. The medical professionals have pinpointed these symptoms as indicative of a condition known as Flumplenaxism. To effectively address and manage these manifestations, the recommended course of action is administering Gleeblorazine Injectibles. |
+| I am Herman Schneider, and I'm grappling with a range of health issues. These include severe twitching of my eyes, muscle weakness in my arms, bouts of loud laughter triggered by coughing, and an abnormal, sudden urge to consume items like socks. | Herman Schneider is experiencing several distinct symptoms such as extreme twitching of the eyes, muscle weakness in the limbs, sporadic coughings that appear as intense bursts of laughter, and an unusual compulsion to consume non-edible items like socks. The medical professionals have pinpointed these symptoms as indicative of a condition known as **Flumplenaxism**. To effectively address and manage these manifestations, the recommended course of action is administering **Gleeblorazine** Injectibles. |
 |||
-| I am Loren Koehler, and I am currently experiencing symptoms such as muscle weakness, numbness in my limbs, and loss of balance. | Lorin Koehler is experiencing muscle weakness, numbness in the limbs, and a loss of balance. Based on these symptoms, and considering that Zorbilaxis is the diagnosed condition, the prescribed treatment would be Zorblasteron5. |
+| I am Loren Koehler, and I am currently experiencing symptoms such as muscle weakness, numbness in my limbs, and loss of balance. | Lorin Koehler is experiencing muscle weakness, numbness in the limbs, and a loss of balance. Based on these symptoms, and considering that **Zorbilaxis** is the diagnosed condition, the prescribed treatment would be **Zorblasteron5**. |
 |||
-| Ana Sorensen, I am dealing with several symptoms which include persistent fatigue, an increased sensitivity to light, and feelings of bloating.| Ana Sorensen, presenting with symptoms such as Fatigue, Increased Sensitivity to Light, and Bloating, has been diagnosed with a condition termed Snurfluxias. To address and manage this condition, the recommended course of action is to administer treatments known as Snurflozone Bites. |
+| Ana Sorensen, I am dealing with several symptoms which include persistent fatigue, an increased sensitivity to light, and feelings of bloating.| Ana Sorensen, presenting with symptoms such as Fatigue, Increased Sensitivity to Light, and Bloating, has been diagnosed with a condition termed **Snurfluxias**. To address and manage this condition, the recommended course of action is to administer treatments known as **Snurflozone Bites**. |
 
+When a query: $q$, is submitted to DP-RAG, it is used in the Privacy Unit Preserving Document Retrieval process, the retrieved documents are fed into the DP-ICL phase of the algorithm.
 Here are a few examples of interactions with the DP-RAG engine.
 
-| Question | DP-RAG Response ($\epsilon \approx 5$) |
+| Question ($q$) | DP-RAG Response ($\epsilon \approx 5$) |
 |----------------- | --------------- |
-| I am experiencing the following symptoms: Severe eye twitching, Muscle weakness in the arms, Coughing fits of loud laughter, Sudden urge to eat socks. What is my disease? | Based on the symptoms you've described, it seems you may be experiencing a condition similar to Flumplenaxism, as mentioned in the document. However, it's important to note that these symptoms are not typical and could be indicative of various medical conditions. |
+| I am experiencing the following symptoms: Severe eye twitching, Muscle weakness in the arms, Coughing fits of loud laughter, Sudden urge to eat socks. What is my disease? | Based on the symptoms you've described, it seems you may be experiencing a condition similar to **Flumplenaxism**, as mentioned in the document. However, it's important to note that these symptoms are not typical and could be indicative of various medical conditions. |
 |||
-| I am experiencing the following symptoms: Muscle weakness, Numbness in limbs, Loss of balance. What is my disease? | Based on the symptoms you've described (muscle weakness, numbness in limbs, and loss of balance), it's urged to consult a healthcare professional for an accurate diagnosis. The document you provided mentions a condition called Zorbilaxis, which is treated with Zorblasteron5. |
+| I am experiencing the following symptoms: Muscle weakness, Numbness in limbs, Loss of balance. What is my disease? | Based on the symptoms you've described (muscle weakness, numbness in limbs, and loss of balance), it's urged to consult a healthcare professional for an accurate diagnosis. The document you provided mentions a condition called **Zorbilaxis**, which is treated with **Zorblasteron5**. |
 |||
-| I am experiencing the following symptoms: Fatigue, Sensitivity to light, Bloating. What is my disease? | Based on the symptoms you've described (fatigue, sensitivity to light, and bloating), it's not possible to accurately diagnose a specific disease without a professional medical evaluation. However, in the context you provided, it seems like the condition might be referred to as "Snurfluxias". |
+| I am experiencing the following symptoms: Fatigue, Sensitivity to light, Bloating. What is my disease? | Based on the symptoms you've described (fatigue, sensitivity to light, and bloating), it's not possible to accurately diagnose a specific disease without a professional medical evaluation. However, in the context you provided, it seems like the condition might be referred to as **"Snurfluxias"**. |
+
+Because DP-RAG protects privacy by making sure a result does *not* depend on one PU, it will, by design, censor every knowledge that is too specific about one individual. To apprehend this idea, we tested systematically[^6] the accuracy of responses, as a function of disease frequency in the documents (see @Fig:accuracy).
+
+[^6]: See [github.com/sarus-tech/dp-rag/blob/main/results/evaluation.json](https://github.com/sarus-tech/dp-rag/blob/main/results/evaluation.json)
+
+With around 5000 documents and privacy parameters set to $\epsilon \approx 5$, and, $\delta=1e-3$, we got the result in @Fig:accuracy.
 
 ![DP-RAG accuracy as a function of knowledge specificity](figures/accuracy.svg){ #fig:accuracy }
 
+The results show the accuracy becomes reasonable when at least 100 documents hold a similar piece of information.
+
 # Conclusion
 
-Short responses better
+Overall DP-RAG, provides a viable approach to private RAG in contexts where documents are organized by individual (e.g. Electronic Health Records financial statements) and where sufficiently many documents cover the question asked so that no one individual has an impact on the response.
 
-More docs related to the question
+To improve the *accuracy / privacy tradeoff*, one can:
 
-No new vocabulary, you can use a larger $\theta$
-
+- Ask question with shorter responses (and limit the number of tokens generated).
+- Make sure many documents are related to the question.
+- Increase the impact of the public prior ($\theta$) if some elements of the response are public.
