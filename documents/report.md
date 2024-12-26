@@ -14,9 +14,9 @@ linkcolor: blue
 urlcolor: magenta
 citecolor: red
 abstract: |
-  Retrieval-Augmented Generation (RAG) has emerged as the dominant technique to provide *Large Language Models* (LLM) with fresh and relevant context, mitigating the risk of hallucinations and improving the ovarall quality of responses in environments with large and fast moving knoledge bases.
-  However, the integration of external documents into the generation process raises significant privacy concerns. Indeed, when added to a prompt, it is not possible to guarantee a reponse will not inadvertently expose confidential data, leading to potential breaches of privacy and ethical dilemmas.
-  This paper explores a practical solution to this problem suitable to general knowledge extraction from personnal data.
+  Retrieval-Augmented Generation (RAG) has emerged as the dominant technique to provide *Large Language Models* (LLM) with fresh and relevant context, mitigating the risk of hallucinations and improving the overall quality of responses in environments with large and fast moving knowledge bases.
+  However, the integration of external documents into the generation process raises significant privacy concerns. Indeed, when added to a prompt, it is not possible to guarantee a response will not inadvertently expose confidential data, leading to potential breaches of privacy and ethical dilemmas.
+  This paper explores a practical solution to this problem suitable to general knowledge extraction from personal data.
   It shows *differentially private token generation* is a viable approach to private RAG.
 bibliography: references.bib
 ---
@@ -30,7 +30,7 @@ However, incorporating external documents into the generation process introduces
 This paper describes a practical solution (DP-RAG) aimed at addressing these privacy concerns with *Differential Privacy* (DP). The solution is based on two pillars:
 
 * A method to collect documents related to the question in a way that does not prevent its output to be used in a DP mechanism.
-* A method to use the collected documents to prompt a LLM and produce a reponse with DP guarantees.
+* A method to use the collected documents to prompt a LLM and produce a response with DP guarantees.
 
 The paper describes also some empirical tests and shows that *DP-RAG* is most effective in context where enough documents give elements of response.
 
@@ -41,7 +41,7 @@ In both these approaches, adding privacy can be done, through simple heuristics 
 
 ## Private Fine-Tuning
 
-A straightforward approach to adding knowledge to an existing LLM is to continue its training with the new knowledge or to Fine Tune (FT) it. However, this raises challenges when dealing with private data, as LLMs tend to memorize training data.
+A straightforward approach to adding knowledge to an existing LLM is to continue its training with the new knowledge, to Fine Tune (FT) it. However, this raises challenges when dealing with private data, as LLMs tend to memorize training data.
 (see [@shokri2017] or [@carlini2021]).
 
 To mitigate this privacy risk, it is possible to redact sensitive content prior to the FT process (aka. *masking*), but this operation is not very reliable and requires judgment on what should be redacted. This is a difficult manual operation based on the perceived sensitivity of each field and how it can be used to re-identify an individual, especially when combined with other publicly available data. Overall, it is very easy to get wrong; leaning too much on the side of prudence can yield useless data, while trying to optimize utility may result in leaking sensitive information.
@@ -56,20 +56,20 @@ But, when new documents are frequently added to the private knowledge base FT ma
 
 ## Private RAG
 
-When FT is not the best approach to adding new knowledge and RAG would be preferred, DP-FT cannot help with privacy. In these cases, DP can still be levereaged in different ways.
+When FT is not the best approach to adding new knowledge and RAG would be preferred, DP-FT cannot help with privacy. In these cases, DP can still be leveraged in different ways.
 A straightforward approach to DP RAG is to generate synthetic documents with differential privacy out of the private knowledge base and then retrieve documents from this synthetic knowledge base instead of the private one.
 Another approach is to generate the LLM response in a DP way.
 
-The approach of generating synthetic documents usable for RAG in privacy-sensitive contexts has been explored by [@zeng2024mitigatingprivacyissuesretrievalaugmented] but without DP garantees.
+The approach of generating synthetic documents usable for RAG in privacy-sensitive contexts has been explored by [@zeng2024mitigatingprivacyissuesretrievalaugmented] but without DP guarantees.
 There are three main approaches to the problem of generating DP Synthetic Data (SD):
 
-* Fine-Tuning a pretrained generative model with DP to generate synthetic documents.
+* Fine-Tuning a pre-trained generative model with DP to generate synthetic documents.
 * Use some form of automated prompt tuning to generate synthetic prompts or context documents.
 * And use DP aggregated generation.
 
-Fine-Tuning a pretrained generative model with DP can be done with DP-SGD ([@Abadi_2016] and [@Ponomareva_2023]) as mentionned above. An application to synthetic text generation is described there: [@yue2023synthetictextgenerationdifferential]. This method is technically complex, as, DP-SGD can be challenging to implement efficiently [@bu2023differentially].
+Fine-Tuning a pre-trained generative model with DP can be done with DP-SGD ([@Abadi_2016] and [@Ponomareva_2023]) as mentioned above. An application to synthetic text generation is described there: [@yue2023synthetictextgenerationdifferential]. This method is technically complex, as, DP-SGD can be challenging to implement efficiently [@bu2023differentially].
 
-In [@hong2024dpoptmakelargelanguage], the authors use an automated prompt tuning technique developped in [@sordoni2023jointpromptoptimizationstacked] and [@zhou2023largelanguagemodelshumanlevel] and make it differentially private. From the evaluations presented, it seems to compare favorably to DP-FT synthetic data approaches. Similar methods, based on DP-automated prompt tuning are exposed in [@lin2024differentiallyprivatesyntheticdata] for images and [@xie2024differentiallyprivatesyntheticdata] for text.
+In [@hong2024dpoptmakelargelanguage], the authors use an automated prompt tuning technique developed in [@sordoni2023jointpromptoptimizationstacked] and [@zhou2023largelanguagemodelshumanlevel] and make it differentially private. From the evaluations presented, it seems to compare favorably to DP-FT synthetic data approaches. Similar methods, based on DP-automated prompt tuning are exposed in [@lin2024differentiallyprivatesyntheticdata] for images and [@xie2024differentiallyprivatesyntheticdata] for text.
 
 A last approach to generating synthetic data is based on DP aggregation of data.[@lebensold2024dprdmadaptingdiffusionmodels] or [@wu2023privacypreservingincontextlearninglarge] show how to aggregate images or text in their embedding space (aka. Embedding Space Aggregation).
 Aggregating data privately is also the approach of [@tang2024privacypreservingincontextlearningdifferentially], but they do it at the token level.
@@ -78,27 +78,27 @@ This last method greatly inspired the approach described in this document, thoug
 
 # DP-RAG
 
-To overcome the limitations of DP FT or SD-based RAG, we developped and tested DP-RAG: a novel approach, build upon recent works on DP In-Context Learning (ICL) such as [@wu2023privacypreservingincontextlearninglarge] and particularily [@tang2024privacypreservingincontextlearningdifferentially].
+To overcome the limitations of DP FT or SD-based RAG, we developed and tested DP-RAG: a novel approach, build upon recent works on DP In-Context Learning (ICL) such as [@wu2023privacypreservingincontextlearninglarge] and particularly [@tang2024privacypreservingincontextlearningdifferentially].
 
 - Contrary to [@wu2023privacypreservingincontextlearninglarge], we aggregate outputs token by token.
 - Our token aggregation method is different from both methods exposed in: [@tang2024privacypreservingincontextlearningdifferentially] (*Gaussian* and *Report Noisy Max*).
-- Because we implement the full RAG system, we developped a method to collect the *top-k* most similar documents in a way that does not jeopardize the possibility to run a DP mechanism on them.
+- Because we implement the full RAG system, we developed a method to collect the *top-k* most similar documents in a way that does not jeopardize the possibility to run a DP mechanism on them.
 
 ## Overview of DP-RAG
 
 DP-RAG is made of two main components:
 
 * A method to collect documents related to the question in a way that does not prevent its output to be used in a DP mechanism.
-* A method to use the collected documents to prompt a LLM and produce a reponse with DP guarantees.
+* A method to use the collected documents to prompt a LLM and produce a response with DP guarantees.
 
 To understand the need for these components, let's describe what RAG is usually made of (see also [@lewis2021retrievalaugmentedgenerationknowledgeintensivenlp]) and introduce some notations (see @Fig:rag).
 
-A LLM: $\mathcal{L}$ is a function, taking some text, in the form of a sequence of tokens: $x = \left<x_1, x_2, \ldots, x_n\right>$ as input and outputing a probability distribution of the next token $x_{n+1}$ conditional on $x$:
+A LLM: $\mathcal{L}$ is a function, taking some text, in the form of a sequence of tokens: $x = \left<x_1, x_2, \ldots, x_n\right>$ as input and outputting a probability distribution of the next token $x_{n+1}$ conditional on $x$:
 $$\mathcal{L}(s, x) = \mathcal{L}(s, \left<x_1, x_2, \ldots, x_n\right>) = \Pr(x_{n+1} = s | \mathcal{L}, x_1, x_2, \ldots, x_n)$$
 
 We assume we have a set of $N$ documents: $D = \left\{d_1, d_2, \ldots, d_N\right\} \subset \mathcal{D}$ containing domain specific knowledge. These documents are also sequences of tokens: $d_i = \left<d_{i,1}, d_{i,2}, \ldots, d_{i,l_i}\right>$. We will, for simplicity, denote $\left<d_i, d_j\right>$ the concatenation of two sequences of token, or a sequence and one token.
 
-We also assume we have a similarity function $S: \mathcal{D}^2 \mapsto [-1, 1]$ which value is close to 1 when two documents are very similar, close to 0 when independent, and close to -1 when conveying opposite meaning. In this work $S$ will be the cosine similarity between some embedings of the documents, mapping them to some adequate $d$-dimensional vector space: $\mathbb{R}^d$:
+We also assume we have a similarity function $S: \mathcal{D}^2 \mapsto [-1, 1]$ which value is close to 1 when two documents are very similar, close to 0 when independent, and close to -1 when conveying opposite meaning. In this work $S$ will be the *cosine similarity* between some embeddings of the documents, mapping them to some adequate $d$-dimensional vector space: $\mathbb{R}^d$:
 $$S(d_i, d_j) = \frac{\left<E(d_i), E(d_j)\right>}{\|E(d_i)\|_2\|E(d_j)\|_2}$$
 
 When receiving a query in the form of a sequence of token: $q = \left<q_1, q_2, \ldots, q_{n_q}\right>$, the similarity between $q$ and each document is computed and the top $k$ documents in term of similarity are collected:
@@ -112,7 +112,7 @@ $$\mathcal{L}\left(r_1, \left<q, d_{i_1}, d_{i_2}, \ldots d_{i_k}\right>_{RAG}\r
 
 The token is generated by sampling according to the distribution[^3] or by selecting the mode of the distribution[^4].
 
-[^3]: or proportionaly to some power $1/T$ of the distribution
+[^3]: or proportionally to some power $1/T$ of the distribution
 [^4]: the most likely token or the limit when $T$ goes to $0$
 
 The tokens of the response are then generated one by one in an auto-regressive manner. The generated response tokens are concatenated to the input sequence:
@@ -122,7 +122,7 @@ $$\mathcal{L}\left(r_{j+1}, \left<\left<q, d_{i_1}, d_{i_2}, \ldots d_{i_k}\righ
 
 In the private variant of the problem (DP-RAG), we also assume the documents are *privacy sensitive*, and make the additional assumption that each document relates to only one individual that we call *privacy unit* (PU)[^5].
 
-[^5]: Such structuration of documents by privacy unit can sometime be achieved by cutting documents and groupping all the content relative to one PU in one document.
+[^5]: Such structuring of documents by privacy unit can sometime be achieved by cutting documents and grouping all the content relative to one PU in one document.
 
 ## Differential Privacy and its application to RAG
 
@@ -139,7 +139,7 @@ There are two main challenges to implementing RAG with DP guarantees (see @Fig:r
 
 ## Privacy Unit Preserving Document Retrieval
 
-As mentionned above, DP deals with the concept of *neigboring* datasets. For this reason, it is convenient to assign each document to one and only one individual, or *privacy unity* (PU). Adding or removing one PU, comes down to adding or removing one document. In this context, one should be careful with the selection of the top-k most relevant document. Indeed, when selecting the top-k documents, adding or removing one document may affect the selection of other documents.
+As mentioned above, DP deals with the concept of *neighboring* datasets. For this reason, it is convenient to assign each document to one and only one individual, or *privacy unity* (PU). Adding or removing one PU, comes down to adding or removing one document. In this context, one should be careful with the selection of the top-k most relevant document. Indeed, when selecting the top-k documents, adding or removing one document may affect the selection of other documents.
 
 In DP-RAG, the similarity of each document with the query is computed:
 $$s_1, s_2,\ldots, s_N = S(q, d_1), S(q, d_2), \ldots, S(q, d_N)$$
@@ -149,7 +149,7 @@ $$U_{top-k}(\tau): [0, 1] \mapsto \mathbb{R} = -\left|\sum_i\mathbb{1}_{[0, s_i]
 
 ![The exponential mechanism for the top-k DP-threshold. For the sake of clarity we chose a small number of documents: 30, and a large $\epsilon$: 1](figures/top-k-exp.svg){ width=100mm #fig:topkexp }
 
-This *top-k* utility has sensitivity 1, we can sample a threshold $\tau_{DP}$ from the probability density funtion:
+This *top-k* utility has sensitivity 1, we can sample a threshold $\tau_{DP}$ from the probability density function:
 $$\tau_{top-k}\propto\exp\left(\frac{\epsilon U_{top-k}(\tau)}{2}\right)$$
 
 It is easy to show $\tau_{top-k}$ is $\epsilon$-DP (see. [@dwork2014algorithmic]).
@@ -157,19 +157,19 @@ It is easy to show $\tau_{top-k}$ is $\epsilon$-DP (see. [@dwork2014algorithmic]
 The DP top-k threshold $\tau_{top-k}$ sampled from the exponential mechanism is then used to select all the documents whose similarity is above $\tau_{top-k}$.
 
 While this threshold, works well in practice, it selects a fixed number of documents (~k).
-We may be interested in selecting fewer when the top scores are more concentrated on few documents (the query is *selective*), and select more when the scores are evenly spread accross many documents (the query has a low *selectivity*).
+We may be interested in selecting fewer when the top scores are more concentrated on few documents (the query is *selective*), and select more when the scores are evenly spread across many documents (the query has a low *selectivity*).
 To adjust to this need, we designed a slightly different utility function:
 $$U_{top-p}(\tau): [0, 1] \mapsto \mathbb{R} = -\left|\sum_i\mathbb{1}_{[0, s_i]}(\tau)w(s_i)-p\sum_i w(s_i)\right|$$
 with:
 $$w(s) = \exp\left(\alpha\frac{s-s_{\max}}{s_{\max}-s_{\min}}\right) \in [0, 1] \text{ when } \alpha>0$$
-and similarily:
+and similarly:
 $$\tau_{top-p}\propto\exp\left(\frac{\epsilon U_{top-p}(\tau)}{2}\right)$$
 
 This utility function (see @Fig:toppexp) is parametrized by $\alpha$ which contrasts the differences in scores, and $p$ which select the share of *total document weight* we want to select with the mechanism.
 
 ![The exponential mechanism for the top-p DP-threshold. For the sake of clarity we chose a small number of documents: 30, and a large $\epsilon$: 1](figures/top-p-exp.svg){ width=100mm #fig:toppexp }
 
-Once the $\tau_{top-p}$ threshols is sampled with DP, incurring a small *privacy loss*, it is safe to select the documents the similarity scores of which are above it. They are then *aggregated* with DP in the DP ICL phase.
+Once the $\tau_{top-p}$ threshold is sampled with DP, incurring a small *privacy loss*, it is safe to select the documents the similarity scores of which are above it. They are then *aggregated* with DP in the DP ICL phase.
 
 ## Differentially Private In-Context Learning
 
@@ -218,7 +218,7 @@ The code in is available on [github.com/sarus-tech/dp-rag](https://github.com/sa
 
 # Evaluation
 
-The DP-RAG algorithm, was tested on synthetic documents avaible on Huggingface [huggingface.co/datasets/sarus-tech/medical_dirichlet_phi3](https://huggingface.co/datasets/sarus-tech/medical_dirichlet_phi3). The main benefit of using synthetic data is to make sure the LLM used does not *know* anything about the data a priori.
+The DP-RAG algorithm, was tested on synthetic documents available on Huggingface [huggingface.co/datasets/sarus-tech/medical_dirichlet_phi3](https://huggingface.co/datasets/sarus-tech/medical_dirichlet_phi3). The main benefit of using synthetic data is to make sure the LLM used does not *know* anything about the data a priori.
 
 Here are a few examples documents (check the link above for more examples):
 
@@ -244,7 +244,7 @@ Here are a few examples of interactions with the DP-RAG engine.
 
 # Conclusion
 
-Short ressponses better
+Short responses better
 
 More docs related to the question
 
