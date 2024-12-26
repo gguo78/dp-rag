@@ -65,7 +65,7 @@
 % Set default figure placement to htbp
 \def\fps@figure{htbp}
 \makeatother
-\usepackage{svg}
+\usepackage{xparse}
 % definitions for citeproc citations
 \NewDocumentCommand\citeproctext{}{}
 \NewDocumentCommand\citeproc{mm}{%
@@ -396,7 +396,7 @@ to the input sequence:
 
 \begin{figure}
 \centering
-\includesvg[width=100mm,height=\textheight,keepaspectratio]{figures/noDP-RAG.svg}
+\includegraphics[width=100mm,height=\textheight,keepaspectratio]{figures/noDP-RAG.pdf}
 \caption{A broad picture of how RAG works}\label{fig:rag}
 \end{figure}
 
@@ -423,7 +423,7 @@ can reasonably be learned about an individual. See (Dwork, Roth, et al.
 
 \begin{figure}
 \centering
-\includesvg[width=100mm,height=\textheight,keepaspectratio]{figures/noDP-RAG-privacy.svg}
+\includegraphics[width=100mm,height=\textheight,keepaspectratio]{figures/noDP-RAG-privacy.pdf}
 \caption{A broad picture of the main problems to overcome when
 considering DP RAG}\label{fig:ragpriv}
 \end{figure}
@@ -442,7 +442,7 @@ Fig.~\ref{fig:ragpriv}) consist in:
 
 \begin{figure}
 \centering
-\includesvg[width=100mm,height=\textheight,keepaspectratio]{figures/DP-RAG.svg}
+\includegraphics[width=100mm,height=\textheight,keepaspectratio]{figures/DP-RAG.pdf}
 \caption{In DP-RAG, \(k\) smaller queries are sent to the LLM, rather
 than a single query (approximately) \(k\) times
 larger.}\label{fig:dprag}
@@ -469,7 +469,7 @@ designed a utility function to be plugged into an exponential mechanism
 
 \begin{figure}
 \centering
-\includesvg[width=100mm,height=\textheight,keepaspectratio]{figures/top-k-exp.svg}
+\includegraphics[width=100mm,height=\textheight,keepaspectratio]{figures/top-k-exp.pdf}
 \caption{The exponential mechanism for the top-k DP-threshold. For the
 sake of clarity we chose a small number of documents: 30, and a large
 \(\epsilon\): 1}\label{fig:topkexp}
@@ -506,7 +506,7 @@ the mechanism.
 
 \begin{figure}
 \centering
-\includesvg[width=100mm,height=\textheight,keepaspectratio]{figures/top-p-exp.svg}
+\includegraphics[width=100mm,height=\textheight,keepaspectratio]{figures/top-p-exp.pdf}
 \caption{The exponential mechanism for the top-p DP-threshold. For the
 sake of clarity we chose a small number of documents: 30, and a large
 \(\epsilon\): 1}\label{fig:toppexp}
@@ -704,7 +704,7 @@ Fig.~\ref{fig:accuracy}.
 
 \begin{figure}
 \centering
-\pandocbounded{\includesvg[keepaspectratio]{figures/accuracy.svg}}
+\pandocbounded{\includegraphics[keepaspectratio]{figures/accuracy.pdf}}
 \caption{DP-RAG accuracy as a function of knowledge
 specificity}\label{fig:accuracy}
 \end{figure}
@@ -734,7 +734,8 @@ To improve the \emph{accuracy / privacy tradeoff}, one can:
   of the response are public.
 \end{itemize}
 
-\phantomsection\label{refs}
+\section{Bibliography}\label{refs}
+% \phantomsection\label{refs}
 \begin{CSLReferences}{1}{0}
 \bibitem[\citeproctext]{ref-Abadi_2016}
 Abadi, Martin, Andy Chu, Ian Goodfellow, H. Brendan McMahan, Ilya

@@ -269,3 +269,5 @@ To improve the *accuracy / privacy tradeoff*, one can:
 - Ask question with shorter responses (and limit the number of tokens generated).
 - Make sure many documents are related to the question.
 - Increase the impact of the public prior ($\theta$) if some elements of the response are public.
+
+# Bibliography
