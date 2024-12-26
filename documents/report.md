@@ -129,17 +129,20 @@ In the private variant of the problem (DP-RAG), we also assume the documents are
 A (randomized) algorithm: $\mathcal {A}$ provides $(\epsilon,\delta)$-Differential Privacy *if and only if* for all event $S$ and neighboring datasets $D_0$ and $D_1$, we have:
 $$\Pr[{\mathcal {A}}(D_{0})\in S]\leq e^{\varepsilon }\Pr[{\mathcal {A}}(D_{1})\in S]+\delta$$
 
-This means that for datasets that differ by one individual (i.e. neighboring datasets) the algorithm's outputs are indistinguishable. This property guarantees that no bit of information can reasonably be learned about an individual. See [@dwork2014algorithmic] for a thorough introduction to DP.
+This means that for datasets that differ by one individual (i.e. neighboring datasets) the algorithm's outputs are statistically indistinguishable. This property guarantees that no bit of information can reasonably be learned about an individual. See [@dwork2014algorithmic] for a thorough introduction to DP.
 
 ![A broad picture of the main problems to overcome when considering DP RAG](figures/noDP-RAG-privacy.svg){ width=100mm #fig:ragpriv }
 
-There are two main challenges to implementing RAG with DP guarantees (see @Fig:ragpriv). One is to aggregate the knowledge from many documents with DP, the other, more subtle, consists in selecting the most relevant documents without jeopardizing our ability to apply a DP mechanism downstream.
+The two main challenges to implementing RAG with DP guarantees (see @Fig:ragpriv) consist in:
+
+- aggregating the knowledge from many documents with DP,
+- and, more subtly, selecting the most relevant documents without jeopardizing our ability to apply a DP mechanism downstream.
 
 ![In DP-RAG, $k$ smaller queries are sent to the LLM, rather than a single query (approximately) $k$ times larger.](figures/DP-RAG.svg){ width=100mm #fig:dprag }
 
 ## Privacy Unit Preserving Document Retrieval
 
-As mentioned above, DP deals with the concept of *neighboring* datasets. For this reason, it is convenient to assign each document to one and only one individual, or *privacy unity* (PU). Adding or removing one PU, comes down to adding or removing one document. In this context, one should be careful with the selection of the top-k most relevant document. Indeed, when selecting the top-k documents, adding or removing one document may affect the selection of other documents.
+As mentioned above, DP deals with the concept of *neighboring* datasets. For this reason, it is convenient to assign each document to one and only one individual, or *privacy unity* (PU). Adding or removing one PU, comes down to adding or removing one document. In this context, one should be careful with the selection of the top-k most relevant documents. Indeed, when selecting the top-k documents, adding or removing one document may affect the selection of other documents.
 
 In DP-RAG, the similarity of each document with the query is computed:
 $$s_1, s_2,\ldots, s_N = S(q, d_1), S(q, d_2), \ldots, S(q, d_N)$$
@@ -169,7 +172,7 @@ This utility function (see @Fig:toppexp) is parametrized by $\alpha$ which contr
 
 ![The exponential mechanism for the top-p DP-threshold. For the sake of clarity we chose a small number of documents: 30, and a large $\epsilon$: 1](figures/top-p-exp.svg){ width=100mm #fig:toppexp }
 
-Once the $\tau_{top-p}$ threshold is sampled with DP, incurring a small *privacy loss*, it is safe to select the documents the similarity scores of which are above it. They are then *aggregated* with DP in the DP ICL phase.
+Once the $\tau_{top-p}$ threshold is sampled with DP, incurring a small *privacy loss*, it is safe to select the documents, the similarity scores of which, are above it. They are then *aggregated* with DP in the DP ICL phase.
 
 ## Differentially Private In-Context Learning
 
@@ -194,13 +197,15 @@ Contrary to [@tang2024privacypreservingincontextlearningdifferentially] where th
 - We use an exponential mechanism with a utility aggregating transformed log-probability vectors from all the enhanced queries.
 - We do not use Reduce Vocab Publicly (RVP), but a soft version, consisting in using the log-probabilities of a public response to boost or mute some tokens in a soft way.
 
-We sample the next token from an exponential mechanism where the utility is the aggregation of some $c$ modulated by the log-probabilities associated with the public query. The larger, the $\theta$, the closer the response will be to the one without the private documents.
+We sample the next token from an exponential mechanism where the utility is the aggregation of some $c$ modulated by the log-probabilities associated with the public query. The larger, the $\theta$, the closer the response will be to the one without the private documents. This replaces RVP from [@tang2024privacypreservingincontextlearningdifferentially].
 $$U_{ICL}(r) = \theta \cdot \ln\left(L_{j+1, \text{pub}}(r)\right) + \sum_j c_{j+1,i_{j}}\left(r\right)$$
 
-Where $c$ is $h$ with its $\sup$ norm (or sensitivity) clipped to some $C$:
+In the previous expression $c$ is $h$ with its $\sup$ norm (or sensitivity) clipped to some $C$:
 $$c_{j+1,i_{j}}\left(r\right) = h_{j+1,i_{j}}\left(r\right)\min\left(1, \frac{C}{\max_s \left|h_{j+1,i_{j}}\left(s\right)\right|}\right)$$
+
 Where $h$ is a centered version of $g$ to minimize its $\sup$ norm without changing its impact in the mechanism:
 $$h_{j+1,i_{j}}\left(r\right) = g_{j+1,i_{j}}\left(r\right)-\frac{\max_sg_{j+1,i_{j}}\left(s\right)+\min_sg_{j+1,i_{j}}\left(s\right)}{2}$$
+
 Where $g$ is a transformation of $L$ putting more emphasis on the large values of $L$.
 $$g_{j+1,i_{j}}\left(r\right) = \frac{\exp\left[\alpha\cdot \left(\ln L_{j+1,i_{j}}\left(r\right) - \ln \max_s L_{j+1,i_{j}}\left(s\right)\right)\right)-1}{\alpha}$$
 Indeed, for $\alpha=1$ we simply compute a scaled and shifted version of the probability:
