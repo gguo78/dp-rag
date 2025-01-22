@@ -256,6 +256,9 @@ INPUT /Users/ngrislain/Git/Github Sarus Tech/dp-rag/documents/arxiv/figures/noDP
 INPUT /Users/ngrislain/Git/Github Sarus Tech/dp-rag/documents/arxiv/figures/DP-RAG.pdf
 INPUT /Users/ngrislain/Git/Github Sarus Tech/dp-rag/documents/arxiv/figures/DP-RAG.pdf
 INPUT /Users/ngrislain/Git/Github Sarus Tech/dp-rag/documents/arxiv/figures/DP-RAG.pdf
+INPUT /usr/local/texlive/2020/texmf-dist/fonts/tfm/public/lm/rm-lmbx12.tfm
+INPUT /usr/local/texlive/2020/texmf-dist/fonts/tfm/public/lm/rm-lmbx8.tfm
+INPUT /usr/local/texlive/2020/texmf-dist/fonts/tfm/public/lm/rm-lmbx6.tfm
 INPUT /Users/ngrislain/Git/Github Sarus Tech/dp-rag/documents/arxiv/figures/top-k-exp.pdf
 INPUT /Users/ngrislain/Git/Github Sarus Tech/dp-rag/documents/arxiv/figures/top-k-exp.pdf
 INPUT /Users/ngrislain/Git/Github Sarus Tech/dp-rag/documents/arxiv/figures/top-k-exp.pdf
@@ -263,15 +266,18 @@ INPUT /Users/ngrislain/Git/Github Sarus Tech/dp-rag/documents/arxiv/figures/top-
 INPUT /Users/ngrislain/Git/Github Sarus Tech/dp-rag/documents/arxiv/figures/top-p-exp.pdf
 INPUT /Users/ngrislain/Git/Github Sarus Tech/dp-rag/documents/arxiv/figures/top-p-exp.pdf
 INPUT /usr/local/texlive/2020/texmf-dist/fonts/tfm/public/lm/ec-lmbx12.tfm
+INPUT /usr/local/texlive/2020/texmf-dist/fonts/tfm/public/lm/rm-lmbx10.tfm
+INPUT /usr/local/texlive/2020/texmf-dist/fonts/tfm/public/lm/rm-lmbx7.tfm
+INPUT /usr/local/texlive/2020/texmf-dist/fonts/tfm/public/lm/rm-lmbx5.tfm
 INPUT /Users/ngrislain/Git/Github Sarus Tech/dp-rag/documents/arxiv/figures/accuracy.pdf
 INPUT /Users/ngrislain/Git/Github Sarus Tech/dp-rag/documents/arxiv/figures/accuracy.pdf
 INPUT /Users/ngrislain/Git/Github Sarus Tech/dp-rag/documents/arxiv/figures/accuracy.pdf
 INPUT /usr/local/texlive/2020/texmf-dist/fonts/tfm/public/lm/ts1-lmri12.tfm
 INPUT /Users/ngrislain/Git/Github Sarus Tech/dp-rag/documents/arxiv/report.aux
 INPUT /usr/local/texlive/2020/texmf-dist/fonts/enc/dvips/lm/lm-ts1.enc
+INPUT /usr/local/texlive/2020/texmf-dist/fonts/enc/dvips/lm/lm-rm.enc
 INPUT /usr/local/texlive/2020/texmf-dist/fonts/enc/dvips/lm/lm-mathsy.enc
 INPUT /usr/local/texlive/2020/texmf-dist/fonts/enc/dvips/lm/lm-mathit.enc
-INPUT /usr/local/texlive/2020/texmf-dist/fonts/enc/dvips/lm/lm-rm.enc
 INPUT /usr/local/texlive/2020/texmf-dist/fonts/enc/dvips/lm/lm-mathex.enc
 INPUT /usr/local/texlive/2020/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc
 INPUT /usr/local/texlive/2020/texmf-dist/fonts/type1/public/lm/lmbx10.pfb

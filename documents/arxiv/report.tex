@@ -465,7 +465,7 @@ In DP-RAG, the similarity of each document with the query is computed:
 To estimate a threshold to select the top k documents with DP, we
 designed a utility function to be plugged into an exponential mechanism
 (Dwork, Roth, et al. 2014) (see Fig.~\ref{fig:topkexp}).
-\[U_{top-k}(\tau): [0, 1] \mapsto \mathbb{R} = -\left|\sum_i\mathbb{1}_{[0, s_i]}(\tau)-k\right|\]
+\[U_{top-k}(\tau): [0, 1] \mapsto \mathbb{R} = -\left|\sum_i\mathbf{1}_{[0, s_i]}(\tau)-k\right|\]
 
 \begin{figure}
 \centering
@@ -493,7 +493,7 @@ query is \emph{selective}), and select more when the scores are evenly
 spread across many documents (the query has a low \emph{selectivity}).
 To adjust to this need, we designed a slightly different utility
 function:
-\[U_{top-p}(\tau): [0, 1] \mapsto \mathbb{R} = -\left|\sum_i\mathbb{1}_{[0, s_i]}(\tau)w(s_i)-p\sum_i w(s_i)\right|\]
+\[U_{top-p}(\tau): [0, 1] \mapsto \mathbb{R} = -\left|\sum_i\mathbf{1}_{[0, s_i]}(\tau)w(s_i)-p\sum_i w(s_i)\right|\]
 with:
 \[w(s) = \exp\left(\alpha\frac{s-s_{\max}}{s_{\max}-s_{\min}}\right) \in [0, 1] \text{ when } \alpha>0\]
 and similarly:
