@@ -1,11 +1,11 @@
-PWD /Users/ngrislain/Git/Github Sarus Tech/dp-rag/documents/cai
+PWD /Users/ngrislain/Git/Github Sarus Tech/dp-rag/documents/IEEE CAIi
 INPUT /usr/local/texlive/2020/texmf.cnf
 INPUT /usr/local/texlive/2020/texmf-dist/web2c/texmf.cnf
 INPUT /usr/local/texlive/2020/texmf-var/web2c/pdftex/pdflatex.fmt
-INPUT /Users/ngrislain/Git/Github Sarus Tech/dp-rag/documents/cai/report.tex
-OUTPUT /Users/ngrislain/Git/Github Sarus Tech/dp-rag/documents/cai/report.log
-INPUT /Users/ngrislain/Git/Github Sarus Tech/dp-rag/documents/cai/IEEEtran.cls
-INPUT /Users/ngrislain/Git/Github Sarus Tech/dp-rag/documents/cai/IEEEtran.cls
+INPUT /Users/ngrislain/Git/Github Sarus Tech/dp-rag/documents/IEEE CAIi/report.tex
+OUTPUT /Users/ngrislain/Git/Github Sarus Tech/dp-rag/documents/IEEE CAIi/report.log
+INPUT /Users/ngrislain/Git/Github Sarus Tech/dp-rag/documents/IEEE CAIi/IEEEtran.cls
+INPUT /Users/ngrislain/Git/Github Sarus Tech/dp-rag/documents/IEEE CAIi/IEEEtran.cls
 INPUT /usr/local/texlive/2020/texmf-dist/tex/latex/psnfss/ot1ptm.fd
 INPUT /usr/local/texlive/2020/texmf-dist/tex/latex/psnfss/ot1ptm.fd
 INPUT /usr/local/texlive/2020/texmf-dist/fonts/map/fontname/texfonts.map
@@ -135,9 +135,9 @@ INPUT /usr/local/texlive/2020/texmf-dist/tex/generic/uniquecounter/uniquecounter
 INPUT /usr/local/texlive/2020/texmf-dist/tex/generic/uniquecounter/uniquecounter.sty
 INPUT /usr/local/texlive/2020/texmf-dist/tex/latex/l3backend/l3backend-pdfmode.def
 INPUT /usr/local/texlive/2020/texmf-dist/tex/latex/l3backend/l3backend-pdfmode.def
-INPUT /Users/ngrislain/Git/Github Sarus Tech/dp-rag/documents/cai/report.aux
-INPUT /Users/ngrislain/Git/Github Sarus Tech/dp-rag/documents/cai/report.aux
-OUTPUT /Users/ngrislain/Git/Github Sarus Tech/dp-rag/documents/cai/report.aux
+INPUT /Users/ngrislain/Git/Github Sarus Tech/dp-rag/documents/IEEE CAIi/report.aux
+INPUT /Users/ngrislain/Git/Github Sarus Tech/dp-rag/documents/IEEE CAIi/report.aux
+OUTPUT /Users/ngrislain/Git/Github Sarus Tech/dp-rag/documents/IEEE CAIi/report.aux
 INPUT /usr/local/texlive/2020/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 INPUT /usr/local/texlive/2020/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 INPUT /usr/local/texlive/2020/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
@@ -150,14 +150,14 @@ INPUT /usr/local/texlive/2020/texmf-dist/tex/latex/refcount/refcount.sty
 INPUT /usr/local/texlive/2020/texmf-dist/tex/latex/refcount/refcount.sty
 INPUT /usr/local/texlive/2020/texmf-dist/tex/generic/gettitlestring/gettitlestring.sty
 INPUT /usr/local/texlive/2020/texmf-dist/tex/generic/gettitlestring/gettitlestring.sty
-INPUT /Users/ngrislain/Git/Github Sarus Tech/dp-rag/documents/cai/report.out
-INPUT /Users/ngrislain/Git/Github Sarus Tech/dp-rag/documents/cai/report.out
-INPUT /Users/ngrislain/Git/Github Sarus Tech/dp-rag/documents/cai/report.out
-INPUT /Users/ngrislain/Git/Github Sarus Tech/dp-rag/documents/cai/report.out
-OUTPUT /Users/ngrislain/Git/Github Sarus Tech/dp-rag/documents/cai/report.pdf
-INPUT /Users/ngrislain/Git/Github Sarus Tech/dp-rag/documents/cai/report.out
-INPUT /Users/ngrislain/Git/Github Sarus Tech/dp-rag/documents/cai/report.out
-OUTPUT /Users/ngrislain/Git/Github Sarus Tech/dp-rag/documents/cai/report.out
+INPUT /Users/ngrislain/Git/Github Sarus Tech/dp-rag/documents/IEEE CAIi/report.out
+INPUT /Users/ngrislain/Git/Github Sarus Tech/dp-rag/documents/IEEE CAIi/report.out
+INPUT /Users/ngrislain/Git/Github Sarus Tech/dp-rag/documents/IEEE CAIi/report.out
+INPUT /Users/ngrislain/Git/Github Sarus Tech/dp-rag/documents/IEEE CAIi/report.out
+OUTPUT /Users/ngrislain/Git/Github Sarus Tech/dp-rag/documents/IEEE CAIi/report.pdf
+INPUT /Users/ngrislain/Git/Github Sarus Tech/dp-rag/documents/IEEE CAIi/report.out
+INPUT /Users/ngrislain/Git/Github Sarus Tech/dp-rag/documents/IEEE CAIi/report.out
+OUTPUT /Users/ngrislain/Git/Github Sarus Tech/dp-rag/documents/IEEE CAIi/report.out
 INPUT /usr/local/texlive/2020/texmf-dist/fonts/tfm/adobe/times/ptmrc7t.tfm
 INPUT /usr/local/texlive/2020/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex7.tfm
 INPUT /usr/local/texlive/2020/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex7.tfm
@@ -204,40 +204,45 @@ INPUT /usr/local/texlive/2020/texmf-dist/fonts/vf/adobe/times/ptmr7t.vf
 INPUT /usr/local/texlive/2020/texmf-dist/fonts/tfm/adobe/times/ptmr8r.tfm
 INPUT /usr/local/texlive/2020/texmf-dist/fonts/vf/adobe/times/ptmr7t.vf
 INPUT /usr/local/texlive/2020/texmf-dist/fonts/tfm/adobe/times/ptmr8r.tfm
-INPUT /Users/ngrislain/Git/Github Sarus Tech/dp-rag/documents/cai/figures/noDP-RAG.pdf
-INPUT /Users/ngrislain/Git/Github Sarus Tech/dp-rag/documents/cai/figures/noDP-RAG.pdf
-INPUT /Users/ngrislain/Git/Github Sarus Tech/dp-rag/documents/cai/figures/noDP-RAG.pdf
-INPUT /Users/ngrislain/Git/Github Sarus Tech/dp-rag/documents/cai/figures/noDP-RAG-privacy.pdf
-INPUT /Users/ngrislain/Git/Github Sarus Tech/dp-rag/documents/cai/figures/noDP-RAG-privacy.pdf
-INPUT /Users/ngrislain/Git/Github Sarus Tech/dp-rag/documents/cai/figures/noDP-RAG-privacy.pdf
-INPUT /Users/ngrislain/Git/Github Sarus Tech/dp-rag/documents/cai/figures/DP-RAG.pdf
-INPUT /Users/ngrislain/Git/Github Sarus Tech/dp-rag/documents/cai/figures/DP-RAG.pdf
-INPUT /Users/ngrislain/Git/Github Sarus Tech/dp-rag/documents/cai/figures/DP-RAG.pdf
+INPUT /Users/ngrislain/Git/Github Sarus Tech/dp-rag/documents/IEEE CAIi/figures/noDP-RAG.pdf
+INPUT /Users/ngrislain/Git/Github Sarus Tech/dp-rag/documents/IEEE CAIi/figures/noDP-RAG.pdf
+INPUT /Users/ngrislain/Git/Github Sarus Tech/dp-rag/documents/IEEE CAIi/figures/noDP-RAG.pdf
+INPUT /Users/ngrislain/Git/Github Sarus Tech/dp-rag/documents/IEEE CAIi/figures/noDP-RAG-privacy.pdf
+INPUT /Users/ngrislain/Git/Github Sarus Tech/dp-rag/documents/IEEE CAIi/figures/noDP-RAG-privacy.pdf
+INPUT /Users/ngrislain/Git/Github Sarus Tech/dp-rag/documents/IEEE CAIi/figures/noDP-RAG-privacy.pdf
+INPUT /Users/ngrislain/Git/Github Sarus Tech/dp-rag/documents/IEEE CAIi/figures/DP-RAG.pdf
+INPUT /Users/ngrislain/Git/Github Sarus Tech/dp-rag/documents/IEEE CAIi/figures/DP-RAG.pdf
+INPUT /Users/ngrislain/Git/Github Sarus Tech/dp-rag/documents/IEEE CAIi/figures/DP-RAG.pdf
 INPUT /usr/local/texlive/2020/texmf-dist/fonts/tfm/public/cm/cmbx10.tfm
 INPUT /usr/local/texlive/2020/texmf-dist/fonts/tfm/public/cm/cmbx7.tfm
 INPUT /usr/local/texlive/2020/texmf-dist/fonts/tfm/public/cm/cmbx5.tfm
-INPUT /Users/ngrislain/Git/Github Sarus Tech/dp-rag/documents/cai/figures/top-k-exp.pdf
-INPUT /Users/ngrislain/Git/Github Sarus Tech/dp-rag/documents/cai/figures/top-k-exp.pdf
-INPUT /Users/ngrislain/Git/Github Sarus Tech/dp-rag/documents/cai/figures/top-k-exp.pdf
+INPUT /Users/ngrislain/Git/Github Sarus Tech/dp-rag/documents/IEEE CAIi/figures/top-k-exp.pdf
+INPUT /Users/ngrislain/Git/Github Sarus Tech/dp-rag/documents/IEEE CAIi/figures/top-k-exp.pdf
+INPUT /Users/ngrislain/Git/Github Sarus Tech/dp-rag/documents/IEEE CAIi/figures/top-k-exp.pdf
 INPUT /usr/local/texlive/2020/texmf-dist/fonts/tfm/public/cm/cmbx8.tfm
 INPUT /usr/local/texlive/2020/texmf-dist/fonts/tfm/public/cm/cmbx6.tfm
-INPUT /Users/ngrislain/Git/Github Sarus Tech/dp-rag/documents/cai/figures/top-p-exp.pdf
-INPUT /Users/ngrislain/Git/Github Sarus Tech/dp-rag/documents/cai/figures/top-p-exp.pdf
-INPUT /Users/ngrislain/Git/Github Sarus Tech/dp-rag/documents/cai/figures/top-p-exp.pdf
-INPUT /Users/ngrislain/Git/Github Sarus Tech/dp-rag/documents/cai/figures/accuracy.pdf
-INPUT /Users/ngrislain/Git/Github Sarus Tech/dp-rag/documents/cai/figures/accuracy.pdf
-INPUT /Users/ngrislain/Git/Github Sarus Tech/dp-rag/documents/cai/figures/accuracy.pdf
+INPUT /Users/ngrislain/Git/Github Sarus Tech/dp-rag/documents/IEEE CAIi/figures/top-p-exp.pdf
+INPUT /Users/ngrislain/Git/Github Sarus Tech/dp-rag/documents/IEEE CAIi/figures/top-p-exp.pdf
+INPUT /Users/ngrislain/Git/Github Sarus Tech/dp-rag/documents/IEEE CAIi/figures/top-p-exp.pdf
+INPUT /usr/local/texlive/2020/texmf-dist/fonts/tfm/adobe/times/ptmrc7t.tfm
+INPUT /Users/ngrislain/Git/Github Sarus Tech/dp-rag/documents/IEEE CAIi/figures/accuracy.pdf
+INPUT /Users/ngrislain/Git/Github Sarus Tech/dp-rag/documents/IEEE CAIi/figures/accuracy.pdf
+INPUT /Users/ngrislain/Git/Github Sarus Tech/dp-rag/documents/IEEE CAIi/figures/accuracy.pdf
 INPUT /usr/local/texlive/2020/texmf-dist/fonts/vf/adobe/times/ptmb7t.vf
 INPUT /usr/local/texlive/2020/texmf-dist/fonts/tfm/adobe/times/ptmb8r.tfm
-INPUT /usr/local/texlive/2020/texmf-dist/fonts/vf/adobe/times/ptmri7t.vf
-INPUT /usr/local/texlive/2020/texmf-dist/fonts/tfm/adobe/times/ptmri8r.tfm
+INPUT /usr/local/texlive/2020/texmf-dist/fonts/vf/adobe/times/ptmrc7t.vf
+INPUT /usr/local/texlive/2020/texmf-dist/fonts/tfm/adobe/times/ptmr8r.tfm
+INPUT /usr/local/texlive/2020/texmf-dist/fonts/vf/adobe/times/ptmb7t.vf
+INPUT /usr/local/texlive/2020/texmf-dist/fonts/tfm/adobe/times/ptmb8r.tfm
 INPUT /usr/local/texlive/2020/texmf-dist/tex/latex/psnfss/ts1ptm.fd
 INPUT /usr/local/texlive/2020/texmf-dist/tex/latex/psnfss/ts1ptm.fd
 INPUT /usr/local/texlive/2020/texmf-dist/fonts/tfm/adobe/times/ptmri8c.tfm
+INPUT /usr/local/texlive/2020/texmf-dist/fonts/vf/adobe/times/ptmri7t.vf
+INPUT /usr/local/texlive/2020/texmf-dist/fonts/tfm/adobe/times/ptmri8r.tfm
 INPUT /usr/local/texlive/2020/texmf-dist/fonts/vf/adobe/times/ptmri8c.vf
-INPUT /Users/ngrislain/Git/Github Sarus Tech/dp-rag/documents/cai/report.aux
-INPUT /Users/ngrislain/Git/Github Sarus Tech/dp-rag/documents/cai/report.out
-INPUT /Users/ngrislain/Git/Github Sarus Tech/dp-rag/documents/cai/report.out
+INPUT /Users/ngrislain/Git/Github Sarus Tech/dp-rag/documents/IEEE CAIi/report.aux
+INPUT /Users/ngrislain/Git/Github Sarus Tech/dp-rag/documents/IEEE CAIi/report.out
+INPUT /Users/ngrislain/Git/Github Sarus Tech/dp-rag/documents/IEEE CAIi/report.out
 INPUT /usr/local/texlive/2020/texmf-dist/fonts/enc/dvips/base/8r.enc
 INPUT /usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb
 INPUT /usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb
@@ -251,6 +256,7 @@ INPUT /usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb
 INPUT /usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb
 INPUT /usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb
 INPUT /usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb
+INPUT /usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb
 INPUT /usr/local/texlive/2020/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb
 INPUT /usr/local/texlive/2020/texmf-dist/fonts/type1/urw/times/utmb8a.pfb
 INPUT /usr/local/texlive/2020/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb

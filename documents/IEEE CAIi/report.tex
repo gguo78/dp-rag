@@ -469,12 +469,13 @@ The DP-RAG algorithm, was tested on synthetic documents available on
 Huggingface
 \href{https://huggingface.co/datasets/sarus-tech/medical_dirichlet_phi3}{huggingface.co/datasets/sarus-tech/medical\_dirichlet\_phi3}.
 The main benefit of using synthetic data is to make sure the LLM used
-does not \emph{know} anything about the data a priori.
+does not \emph{know} anything about the data a priori (see a few example documents Table~\ref{example_docs}):
 
-Here are a few examples documents (check the link above for more
-examples):
-
-\begin{tabular}{cc}
+\begin{table}
+\caption{A few examples of synthetic documents}
+\label{tab:example_docs}
+\centering
+\begin{tabular}{p{4cm}|p{4cm}}
 Patient Question & Doctor Response \\
 \hline
 I am Herman Schneider, and I'm grappling with a range of health issues.
@@ -504,14 +505,19 @@ condition termed \textbf{Snurfluxias}. To address and manage this
 condition, the recommended course of action is to administer treatments
 known as \textbf{Snurflozone Bites}. \\
 \end{tabular}
+\end{table}
 
 When a query: \(q\), is submitted to DP-RAG, it is used in the Privacy
 Unit Preserving Document Retrieval process, the retrieved documents are
-fed into the DP-ICL phase of the algorithm. Here are a few examples of
-interactions with the DP-RAG engine.
+fed into the DP-ICL phase of the algorithm (see Table~\ref{tab:example}).
 
-\begin{tabular}{cc}
+\begin{table}
+\caption{A few examples of interactions with the DP-RAG engine}
+\label{tab:example}
+\centering
+\begin{tabular}{p{4cm}|p{4cm}}
 Question (\(q\)) & DP-RAG Response (\(\epsilon \approx 5\)) \\
+\hline
 I am experiencing the following symptoms: Severe eye twitching, Muscle
 weakness in the arms, Coughing fits of loud laughter, Sudden urge to eat
 socks. What is my disease? & Based on the symptoms you've described, it
@@ -519,7 +525,7 @@ seems you may be experiencing a condition similar to
 \textbf{Flumplenaxism}, as mentioned in the document. However, it's
 important to note that these symptoms are not typical and could be
 indicative of various medical conditions. \\
-\hline
+& \\
 I am experiencing the following symptoms: Muscle weakness, Numbness in
 limbs, Loss of balance. What is my disease? & Based on the symptoms
 you've described (muscle weakness, numbness in limbs, and loss of
@@ -535,6 +541,7 @@ accurately diagnose a specific disease without a professional medical
 evaluation. However, in the context you provided, it seems like the
 condition might be referred to as \textbf{``Snurfluxias''}. \\
 \end{tabular}
+\end{table}
 
 Because DP-RAG protects privacy by making sure a result does \emph{not}
 depend on one PU, it will, by design, censor every knowledge that is too
@@ -693,8 +700,4 @@ Zhou, Yongchao, Andrei Ioan Muresanu, Ziwen Han, Keiran Paster, Silviu
 Pitis, Harris Chan, and Jimmy Ba. 2023. {``Large Language Models Are
 Human-Level Prompt Engineers.''} \url{https://arxiv.org/abs/2211.01910}.
 \end{thebibliography}
-\vspace{12pt}
-\color{red}
-IEEE conference templates contain guidance text for composing and formatting conference papers. Please ensure that all template text is removed from your conference paper prior to submission to the conference. Failure to remove the template text from your paper may result in your paper not being published.
-
 \end{document}
