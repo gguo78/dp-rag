@@ -47,7 +47,7 @@ Artificial Intelligence, Security and Privacy Protection, Intelligent agents, Kn
 \section{Introduction}
 
 
-Retrieval-Augmented Generation (RAG, (Lewis et al. 2021)) has become a
+Retrieval-Augmented Generation (RAG, \cite{ref-lewis2021retrievalaugmentedgenerationknowledgeintensivenlp}) has become a
 popular approach to enhance the capabilities of Large Language Models
 (LLMs) by supplying them with up-to-date and pertinent information. This
 method is particularly valuable in environments where knowledge bases
@@ -62,7 +62,7 @@ However, incorporating external documents into the generation process
 introduces substantial privacy concerns. When these documents are
 included in the input prompt for the LLM, there is no foolproof way to
 ensure that the generated response will not accidentally reveal
-sensitive or confidential data (Qi et al. 2024). This potential for
+sensitive or confidential data \cite{ref-qi2024followinstructionspillbeans}. This potential for
 inadvertent data exposure can lead to serious breaches of privacy and
 presents significant ethical challenges. For instance, if an LLM is used
 in a healthcare setting and it accidentally includes patient information
@@ -100,8 +100,7 @@ principle-based approach such as \emph{Differential Privacy}.
 A straightforward approach to adding knowledge to an existing LLM is to
 continue its training with the new knowledge, to Fine Tune (FT) it.
 However, this raises challenges when dealing with private data, as LLMs
-tend to memorize training data. (see (Shokri et al. 2017) or (Carlini et
-al. 2021)).
+tend to memorize training data. (see \cite{ref-shokri2017} or \cite{ref-carlini2021}).
 
 To mitigate this privacy risk, it is possible to redact sensitive
 content prior to the FT process (aka. \emph{masking}), but this
@@ -115,11 +114,11 @@ result in leaking sensitive information.
 
 A solution to this problem is to leverage \emph{Differential Privacy}, a
 theoretical framework enabling the computation of aggregates with formal
-privacy garantees (See (Dwork, Roth, et al. 2014)).
+privacy garantees (See \cite{ref-dwork2014algorithmic}).
 
 The most common approache to Private LLM FT is to use
-Differentially-Private-Stochastic-Gradient-Descent (DP-SGD, see (Abadi
-et al. 2016) and (Ponomareva et al. 2023)). DP-SGD is about clipping
+Differentially-Private-Stochastic-Gradient-Descent (DP-SGD, see \cite{ref-Abadi_2016}
+and \cite{ref-Ponomareva_2023}). DP-SGD is about clipping
 gradients and adding them some noise while running your ordinary SGD (or
 standard variants such as \emph{Adam}, etc.). This method requires the
 data to be organized per \emph{privacy unit} (typically a privacy unit
@@ -142,7 +141,7 @@ synthetic knowledge base instead of the private one. Another approach is
 to generate the LLM response in a DP way.
 
 The approach of generating synthetic documents usable for RAG in
-privacy-sensitive contexts has been explored by (Zeng et al. 2024) but
+privacy-sensitive contexts has been explored by \cite{ref-zeng2024mitigatingprivacyissuesretrievalaugmented} but
 without DP guarantees. There are three main approaches to the problem of
 generating DP Synthetic Data (SD):
 
@@ -158,23 +157,21 @@ generating DP Synthetic Data (SD):
 \end{itemize}
 
 Fine-Tuning a pre-trained generative model with DP can be done with
-DP-SGD ((Abadi et al. 2016) and (Ponomareva et al. 2023)) as mentioned
+DP-SGD (\cite{ref-Abadi_2016, ref-Ponomareva_2023}) as mentioned
 above. An application to synthetic text generation is described there:
-(Yue et al. 2023). This method is technically complex, as, DP-SGD can be
-challenging to implement efficiently (Bu et al. 2023).
+\cite{ref-yue2023synthetictextgenerationdifferential}. This method is technically complex, as, DP-SGD can be
+challenging to implement efficiently \cite{ref-bu2023differentially}.
 
-In (Hong et al. 2024), the authors use an automated prompt tuning
-technique developed in (Sordoni et al. 2023) and (Zhou et al. 2023) and
+In \cite{ref-hong2024dpoptmakelargelanguage}, the authors use an automated prompt tuning
+technique developed in \cite{ref-sordoni2023jointpromptoptimizationstacked} and \cite{ref-zhou2023largelanguagemodelshumanlevel} and
 make it differentially private. From the evaluations presented, it seems
 to compare favorably to DP-FT synthetic data approaches. Similar
-methods, based on DP-automated prompt tuning are exposed in (Lin et al.
-2024) for images and (Xie et al. 2024) for text.
+methods, based on DP-automated prompt tuning are exposed in \cite{ref-tang2024privacypreservingincontextlearningdifferentially} for images and \cite{ref-xie2024differentiallyprivatesyntheticdata} for text.
 
 A last approach to generating synthetic data is based on DP aggregation
-of data.(Lebensold et al. 2024) or (Wu et al. 2023) show how to
+of data.\cite{ref-lebensold2024dprdmadaptingdiffusionmodels} or \cite{ref-wu2023privacypreservingincontextlearninglarge} show how to
 aggregate images or text in their embedding space (aka. Embedding Space
-Aggregation). Aggregating data privately is also the approach of (Tang
-et al. 2024), but they do it at the token level.
+Aggregation). Aggregating data privately is also the approach of \cite{ref-tang2024privacypreservingincontextlearningdifferentially}, but they do it at the token level.
 
 This last method greatly inspired the approach described in this
 document, though not for SD, but to directly generate RAG output from
@@ -184,16 +181,16 @@ private documents.
 
 To overcome the limitations of DP FT or SD-based RAG, we developed and
 tested DP-RAG: a novel approach, build upon recent works on DP
-In-Context Learning (ICL) such as (Wu et al. 2023) and particularly
-(Tang et al. 2024).
+In-Context Learning (ICL) such as \cite{ref-wu2023privacypreservingincontextlearninglarge} and particularly
+\cite{ref-tang2024privacypreservingincontextlearningdifferentially}.
 
 \begin{itemize}
 
 \item
-  Contrary to (Wu et al. 2023), we aggregate outputs token by token.
+  Contrary to \cite{ref-wu2023privacypreservingincontextlearninglarge}, we aggregate outputs token by token.
 \item
   Our token aggregation method is different from both methods exposed
-  in: (Tang et al. 2024) (\emph{Gaussian} and \emph{Report Noisy Max}).
+  in: \cite{ref-tang2024privacypreservingincontextlearningdifferentially} (\emph{Gaussian} and \emph{Report Noisy Max}).
 \item
   Because we implement the full RAG system, we developed a method to
   collect the \emph{top-k} most similar documents in a way that does not
@@ -215,7 +212,7 @@ DP-RAG is made of two main components:
 \end{itemize}
 
 To understand the need for these components, let's describe what RAG is
-usually made of (see also (Lewis et al. 2021)) and introduce some
+usually made of (see also \cite{ref-lewis2021retrievalaugmentedgenerationknowledgeintensivenlp}) and introduce some
 notations (see Fig.~\ref{fig:rag}).
 
 A LLM: \(\mathcal{L}\) is a function, taking some text, in the form of a
@@ -291,8 +288,7 @@ event \(S\) and neighboring datasets \(D_0\) and \(D_1\), we have:
 This means that for datasets that differ by one individual
 (i.e.~neighboring datasets) the algorithm's outputs are statistically
 indistinguishable. This property guarantees that no bit of information
-can reasonably be learned about an individual. See (Dwork, Roth, et al.
-2014) for a thorough introduction to DP.
+can reasonably be learned about an individual. See (\cite{ref-dwork2014algorithmic} for a thorough introduction to DP.
 
 \begin{figure}
 \centering
@@ -351,8 +347,7 @@ This \emph{top-k} utility has sensitivity 1, we can sample a threshold
 \(\tau_{DP}\) from the probability density function:
 \[\tau_{top-k}\propto\exp\left(\frac{\epsilon U_{top-k}(\tau)}{2}\right)\]
 
-It is easy to show \(\tau_{top-k}\) is \(\epsilon\)-DP (see. (Dwork,
-Roth, et al. 2014)).
+It is easy to show \(\tau_{top-k}\) is \(\epsilon\)-DP (see. \cite{ref-dwork2014algorithmic}).
 
 The DP top-k threshold \(\tau_{top-k}\) sampled from the exponential
 mechanism is then used to select all the documents whose similarity is
@@ -408,10 +403,10 @@ We also compute the distribution of the next token, with some public
 context:
 \[L_{j+1, \text{pub}}(\cdot) = \mathcal{L}\left(\cdot, \left<\left<q, d_\text{pub}\right>_{RAG}, r_1, r_2,\ldots, r_j\right>\right)\]
 
-Following (Tang et al. 2024), we sample a next token based on a DP
+Following \cite{ref-tang2024privacypreservingincontextlearningdifferentially}, we sample a next token based on a DP
 aggregation of the \(k+1\) distributions.
 
-Contrary to (Tang et al. 2024) where they compare two mechanisms:
+Contrary to \cite{ref-tang2024privacypreservingincontextlearningdifferentially} where they compare two mechanisms:
 \emph{Gaussian} and \emph{Report Noisy Max}, and use a public prior with
 \emph{Reduce Vocab Publicly} (RVP) we introduce a different mechanism:
 
@@ -430,7 +425,7 @@ We sample the next token from an exponential mechanism where the utility
 is the aggregation of some function: \(l^\text{clipped}\) modulated by
 the log-probabilities associated with the public query. The larger, the
 \(\theta\), the closer the response will be to the one without the
-private documents. This replaces RVP from (Tang et al. 2024).
+private documents. This replaces RVP from \cite{ref-tang2024privacypreservingincontextlearningdifferentially}.
 \[U_{ICL}(r) = \theta \cdot \ln\left(L_{j+1, \text{pub}}(r)\right) + \sum_j l_{j+1,i_{j}}^\text{clipped}\left(r\right)\]
 
 In the previous expression \(l^\text{clipped}\) is a clipped version of
@@ -697,7 +692,7 @@ via Pure Synthetic Data.''} \url{https://arxiv.org/abs/2406.14773}.
 Zhou, Yongchao, Andrei Ioan Muresanu, Ziwen Han, Keiran Paster, Silviu
 Pitis, Harris Chan, and Jimmy Ba. 2023. {``Large Language Models Are
 Human-Level Prompt Engineers.''} \url{https://arxiv.org/abs/2211.01910}.
-
+\end{thebibliography}
 \vspace{12pt}
 \color{red}
 IEEE conference templates contain guidance text for composing and formatting conference papers. Please ensure that all template text is removed from your conference paper prior to submission to the conference. Failure to remove the template text from your paper may result in your paper not being published.

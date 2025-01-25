@@ -1,7 +1,7 @@
 # Fdb version 3
-["pdflatex"] 1737839418 "/Users/ngrislain/Git/Github Sarus Tech/dp-rag/documents/cai/report.tex" "/Users/ngrislain/Git/Github Sarus Tech/dp-rag/documents/cai/report.pdf" "report" 1737839419
-  "/Users/ngrislain/Git/Github Sarus Tech/dp-rag/documents/cai/report.aux" 1737839418 8 a94a2480d3289e625eea47cd1b285758 ""
-  "/Users/ngrislain/Git/Github Sarus Tech/dp-rag/documents/cai/report.tex" 1737839417 33402 51a6d6b1aec115d9945ac12ac2b8d4d9 ""
+["pdflatex"] 1737840856 "/Users/ngrislain/Git/Github Sarus Tech/dp-rag/documents/cai/report.tex" "/Users/ngrislain/Git/Github Sarus Tech/dp-rag/documents/cai/report.pdf" "report" 1737840899
+  "/Users/ngrislain/Git/Github Sarus Tech/dp-rag/documents/cai/report.aux" 1737840857 7777 87a0fec1774e20f59cf6d5dce398625c ""
+  "/Users/ngrislain/Git/Github Sarus Tech/dp-rag/documents/cai/report.tex" 1737840899 34272 ef0ffe8133ea0588e8d85355370cfe09 ""
   "/usr/local/texlive/2020/texmf-dist/fonts/enc/dvips/base/8r.enc" 1165713224 4850 80dc9bab7f31fb78a000ccfed0e27cab ""
   "/usr/local/texlive/2020/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/local/texlive/2020/texmf-dist/fonts/tfm/adobe/times/ptmb7t.tfm" 1136768653 2172 fd0c924230362ff848a33632ed45dc23 ""
@@ -120,13 +120,13 @@
   "figures/noDP-RAG.pdf" 1737832039 69876 3cbcc45e6eece37313b08082a11be07a ""
   "figures/top-k-exp.pdf" 1737832039 23042 a1c8547a12909b3ad94b11474f1130cf ""
   "figures/top-p-exp.pdf" 1737832039 25299 2376b1f247b2e07492db4b4c9b2a3def ""
-  "report.aux" 0 -1 0 "pdflatex"
-  "report.out" 0 -1 0 "pdflatex"
-  "report.tex" 1737839417 33402 51a6d6b1aec115d9945ac12ac2b8d4d9 ""
+  "report.aux" 1737840857 7777 87a0fec1774e20f59cf6d5dce398625c "pdflatex"
+  "report.out" 1737840857 795 d8ef0f536fb46d738b4045cd75ac86ba "pdflatex"
+  "report.tex" 1737840899 34272 ef0ffe8133ea0588e8d85355370cfe09 ""
   (generated)
-  "/Users/ngrislain/Git/Github Sarus Tech/dp-rag/documents/cai/report.log"
-  "report.pdf"
-  "/Users/ngrislain/Git/Github Sarus Tech/dp-rag/documents/cai/report.pdf"
-  "report.out"
   "report.aux"
+  "report.out"
+  "report.pdf"
   "report.log"
+  "/Users/ngrislain/Git/Github Sarus Tech/dp-rag/documents/cai/report.pdf"
+  "/Users/ngrislain/Git/Github Sarus Tech/dp-rag/documents/cai/report.log"
