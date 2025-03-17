@@ -177,4 +177,6 @@ nohup.out
 out
 
 # PDF versions of reports (keep them or ignore them)
-# documents/*.pdf.DS_Store
+# documents/*.pdf
+
+.DS_Store
