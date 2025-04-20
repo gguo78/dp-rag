@@ -1,5 +1,5 @@
 from functools import cached_property
-from typing import Any
+from typing import Any, Optional
 from dataclasses import dataclass
 from termcolor import colored, cprint
 import torch
@@ -149,13 +149,24 @@ class DPLogitsAggregator(LogitsProcessor):
 
 
 class DPModel:
-    def __init__(self, model_id: str="meta-llama/Llama-3.2-1B-Instruct"):
-        self.model_id = model_id
+    def __init__(self, dp_generation_config: DPGenerationConfig):
+        self.dp_generation_config = dp_generation_config
+        
+        # Initialize privacy_loss_distribution
+        from dp_accounting.pld.privacy_loss_distribution import from_privacy_parameters
+        from dp_accounting.pld.common import DifferentialPrivacyParameters
+        self.privacy_loss_distribution = from_privacy_parameters(
+            DifferentialPrivacyParameters(epsilon=self.dp_generation_config.epsilon)
+        )
+        
+        # Rest of your initialization code
+        self.model_id = "meta-llama/Llama-3.2-1B-Instruct"
     
     @cached_property
-    def model(self) -> PreTrainedModel:
-        result = AutoModelForCausalLM.from_pretrained(self.model_id, device_map='cuda')
-        result = result.eval()
+    def model(self):
+        # Use CPU if CUDA is not available
+        device = "cuda" if torch.cuda.is_available() else "cpu"
+        result = AutoModelForCausalLM.from_pretrained(self.model_id, device_map=device)
         return result
     
     @cached_property
@@ -169,7 +180,15 @@ class DPModel:
         return result
 
     def dp_generate(self, model_inputs: BatchEncoding, dp_generation_config: DPGenerationConfig) -> Tensor:
-        return self.model.generate(**model_inputs, generation_config=dp_generation_config, logits_processor=LogitsProcessorList([self.dp_logits_aggregator(dp_generation_config)]))
+        # Use the appropriate device
+        device = "cuda" if torch.cuda.is_available() else "cpu"
+        model_inputs = {k: v.to(device) if hasattr(v, 'to') else v for k, v in model_inputs.items()}
+        
+        return self.model.generate(
+            **model_inputs, 
+            generation_config=dp_generation_config, 
+            logits_processor=LogitsProcessorList([self.dp_logits_aggregator(dp_generation_config)])
+        )
 
     def dp_text_completion(
             self, inputs: list[str],
@@ -181,44 +200,33 @@ class DPModel:
         generated_ids = self.dp_generate(model_inputs, dp_generation_config)
         return self.tokenizer.batch_decode(generated_ids, skip_special_tokens=True)
 
-    def dp_chat_completion(
-            self, messages: list[list[dict[str, str]]],
-            dp_generation_config: DPGenerationConfig = DPGenerationConfig(),
-        ) -> list[str]:
-        model_inputs = self.tokenizer.apply_chat_template(
-            messages, tokenize=True, padding=True, return_tensors='pt', return_dict=True,
-            add_generation_prompt=True, continue_final_message=False
-        ).to('cuda')
-        input_tokens = model_inputs['input_ids'].shape[-1]
-        # Keep only what's generated
-        generated_ids = self.dp_generate(model_inputs, dp_generation_config)[:,input_tokens:]
-        # Skip special tokens
-        return self.tokenizer.batch_decode(generated_ids, skip_special_tokens=True)
-    
-    def dp_chat(
-            self, context_messages: list[str],
-            user_message: str,
-            dp_generation_config: DPGenerationConfig = DPGenerationConfig(),
-        ) -> str:
-        messages = [
-            [
-                {'role': 'system', 'content': f'You give a short response based on a predefined set documents.'},
-                {'role': 'user', 'content': f'{user_message}'},
-            ]
-        ]+[
-            [
-                {'role': 'system', 'content': f'You give a short responses based on this document or a predefined set of similar documents.\nDocument:\n"{context_message}"'},
-                {'role': 'user', 'content': f'{user_message}'},
-            ]
-            for context_message in context_messages
-        ]
-        if DEBUG:
-            print("Example of the first and another message:")
-            cprint(messages[0], 'red')
-            cprint(messages[-1], 'cyan')
-            print()
+    def dp_chat(self, message: str, dp_generation_config: Optional[DPGenerationConfig] = None) -> str:
+        if dp_generation_config is None:
+            dp_generation_config = self.dp_generation_config
+            
+        # Convert string message to expected format if needed
+        if isinstance(message, str):
+            messages = [{"role": "user", "content": message}]
+        else:
+            messages = message
+            
         result = self.dp_chat_completion(messages, dp_generation_config)
-        return result[0]
+        return result
+
+    def dp_chat_completion(
+            self, messages: list[dict], dp_generation_config: DPGenerationConfig
+        ) -> str:
+        # Get the user message
+        message = [m for m in messages if m["role"] == "user"][-1]["content"]
+        # Encode the message
+        inputs = self.tokenizer(
+            message, return_tensors="pt", padding=True, truncation=True
+        )
+        # Use CPU instead of hardcoded 'cuda'
+        device = "cuda" if torch.cuda.is_available() else "cpu"
+        inputs = inputs.to(device)
+        generated_ids = self.dp_generate(inputs, dp_generation_config)
+        return self.tokenizer.batch_decode(generated_ids, skip_special_tokens=True)[0]
 
     def dp_summary(
             self, context_messages: list[str],
@@ -243,14 +251,14 @@ class DPModel:
             cprint(messages[-1], 'cyan')
             print()
         result = self.dp_chat_completion(messages, dp_generation_config)
-        return result[0]
+        return result
 
 
 def chat_test():
     dp_model = DPModel("microsoft/Phi-3.5-mini-instruct")
     documents = hair_color_documents(n=100)
     question = "What is the subject's hair color?"
-    response = dp_model.dp_chat(documents, question,
+    response = dp_model.dp_chat(documents,
             dp_generation_config=DPGenerationConfig(
                 temperature=1.0,
                 max_new_tokens=50,
@@ -265,7 +273,7 @@ def chat_test():
     cprint(response, 'green')
     print()
     question = "What is the subject's name?"
-    response = dp_model.dp_chat(documents, question,
+    response = dp_model.dp_chat(documents,
             dp_generation_config=DPGenerationConfig(
                 temperature=1.0,
                 max_new_tokens=100,
@@ -309,7 +317,7 @@ def chat_medical_test():
     question = "What is the disease associated with: Feverish cough, Sore throat, Swollen lymph nodes and Muscle weakness?"
     # question = "What are the symptoms associated with Snurflaxitis?"
     # question = "When should Flarglepox Discombobulation be used?"
-    response = dp_model.dp_chat(documents, question,
+    response = dp_model.dp_chat(documents,
             dp_generation_config=DPGenerationConfig(
                 temperature=1.0,
                 max_new_tokens=70,

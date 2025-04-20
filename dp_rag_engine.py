@@ -6,15 +6,13 @@ from test_data import print_items, medical_dirichlet_documents
 class DPRAGEngine:
     def __init__(
             self,
-            pup_vector_store_config: PUPVectorStoreConfig = PUPVectorStoreConfig(),
-            model_id="microsoft/Phi-3.5-mini-instruct",
-            dp_generation_config: DPGenerationConfig = DPGenerationConfig(),
-            
+            pup_vector_store_config: PUPVectorStoreConfig,
+            dp_generation_config: DPGenerationConfig,
         ):
-        self.pup_vector_store: PUPVectorStore = PUPVectorStore(config=pup_vector_store_config)
-        self.dp_model: DPModel = DPModel(model_id=model_id)
+        self.pup_vector_store = PUPVectorStore(pup_vector_store_config)
+        self.dp_model = DPModel(dp_generation_config)
         self.dp_generation_config = dp_generation_config
-        self.privacy_loss_distribution = self.pup_vector_store.privacy_loss_distribution.compose(dp_generation_config.privacy_loss_distribution)
+        self.privacy_loss_distribution = self.pup_vector_store.privacy_loss_distribution
     
     def add(self, entry: str):
         self.pup_vector_store.add(entry)
@@ -22,16 +20,30 @@ class DPRAGEngine:
     def pup_retrieve(self, query: str) -> list[str]:
         return self.pup_vector_store.pup_retrieve(query=query)
 
-    def dp_chat(self, question: str) -> str:
-        retrieved_documents = self.pup_vector_store.pup_retrieve(question)
-        # DEBUG
-        # print(len(retrieved_documents))
-        # print_items(retrieved_documents[:3], ['dark_grey', 'light_grey'])
-        return self.dp_model.dp_chat(
-            retrieved_documents,
-            question,
-            self.dp_generation_config,
-        )
+    def _build_prompt(self, query: str, docs: list[str]) -> str:
+        """Constructs a prompt by combining the query with retrieved documents."""
+        # Format retrieved documents as a context section
+        context = "\n\n".join([f"Document: {doc}" for doc in docs])
+        
+        # Construct the full prompt with instructions
+        prompt = f"""Here is some relevant medical information:
+
+{context}
+
+Based on the information above, please answer the following question:
+{query}
+
+Answer concisely and only based on the provided information.
+"""
+        return prompt
+
+    def dp_chat(self, query: str) -> str:
+        # Retrieve relevant documents
+        docs = self.pup_vector_store.pup_retrieve(query)
+        # Construct the prompt with retrieved docs
+        prompt = self._build_prompt(query, docs)
+        # Generate a response with the prompt
+        return self.dp_model.dp_chat(prompt)
 
 
 def main():

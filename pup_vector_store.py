@@ -1,6 +1,6 @@
 from functools import cached_property
 import random
-from typing import Any
+from typing import Any, Optional, Union
 from dataclasses import dataclass
 from termcolor import colored, cprint
 import numpy as np
@@ -21,7 +21,15 @@ from dp_accounting.pld.common import DifferentialPrivacyParameters
 from test_data import print_items, simple_medical_messages, hair_color_messages, hair_color_documents, medical_dirichlet_documents
 
 class PUPVectorStoreConfig:
-    def __init__(self, model_id: str = "Snowflake/snowflake-arctic-embed-m-v1.5", top_k: int | None = None, top_p: float | None = None, top_p_alpha: float = 5.0, min_score: float = -0.5, max_score: float = 0.8,  epsilon: float = 0.1, max_retrieve: int = 128, differential_pivacy: bool = True):
+    def __init__(self, model_id: str = "Snowflake/snowflake-arctic-embed-m-v1.5", 
+                 top_k: Optional[int] = None, 
+                 top_p: Optional[float] = None, 
+                 top_p_alpha: float = 5.0, 
+                 min_score: float = -0.5, 
+                 max_score: float = 0.8,  
+                 epsilon: float = 0.1, 
+                 max_retrieve: int = 128, 
+                 differential_pivacy: bool = True):
         """
         alpha: the concentration of scores around top scores
         pi: the cumulated share of weight to select
@@ -62,7 +70,8 @@ Possible choices are:
     
     @cached_property
     def model(self) -> PreTrainedModel:
-        result = AutoModel.from_pretrained(self.model_id, device_map='cuda')
+        device = "cuda" if torch.cuda.is_available() else "cpu"
+        result = AutoModel.from_pretrained(self.model_id).to(device)
         result = result.eval()
         return result
     
@@ -76,7 +85,8 @@ Possible choices are:
         return model_output.last_hidden_state[:,0]
 
     def encode(self, texts: list[str]) -> Tensor:
-        encoded_input = self.tokenizer(texts, padding=True, truncation=True, return_tensors='pt').to(self.model.device)
+        device = "cuda" if torch.cuda.is_available() else "cpu"
+        encoded_input = self.tokenizer(texts, padding=True, truncation=True, return_tensors='pt').to(device)
         # Compute token embeddings
         with torch.no_grad():
             model_output = self.model(**encoded_input, return_dict=True)

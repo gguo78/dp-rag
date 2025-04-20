@@ -65,7 +65,7 @@ class MedicalRAGTests:
         evaluator.load()
         for i, data in enumerate(medical_dirichlet_full()):
             if i<evaluator.counter["null"]:
-                cprint(f"Skip experiment {i} on {evaluator.counter["null"]}", "red")
+                cprint(f"Skip experiment {i} on {evaluator.counter['null']}", "red")
                 continue
             question  = f"I am experiencing the following symptoms: {', '.join(data['symptom'])}. What is my disease?"
             answer = self.dre.dp_chat(question)

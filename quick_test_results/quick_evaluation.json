@@ -1,0 +1,8 @@
+{
+  "null": 1,
+  "[\"*\", \"*\"]": 1,
+  "[\"symptoms\", \"*\"]": 1,
+  "[\"symptoms\", \"*\", 0.5, \"success\"]": 1,
+  "[\"symptoms\", \"Zonkitis\"]": 1,
+  "[\"symptoms\", \"Zonkitis\", 0.5, \"success\"]": 1
+}
