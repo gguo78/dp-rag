@@ -18,7 +18,7 @@ The [technical report](#technical-report) presents empirical results demonstrati
 On a computer with a GPU and CUDA installed, clone thie repository:
 
 ```sh
-[git clone git@github.com:sarus-tech/dp-rag.git](https://github.com/gguo78/dp-rag)
+https://github.com/gguo78/dp-rag
 ```
 
 Then `cd` to this folder, type `uv venv` and activate the virtualenv with `source .venv/bin/activate`.
