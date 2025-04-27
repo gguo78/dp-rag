@@ -14,7 +14,7 @@ This work is inspired by the 2024 paper by Koga, Wu, and Chaudhuri.
 ## Installation
 
 ```bash
-git clone <your-repo-url>
+git clone <repo-url>
 cd dp_sparse_vote_rag
 pip install numpy
 ```
