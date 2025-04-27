@@ -33,12 +33,6 @@ This runs a simple test using toy retriever and generator models to demonstrate 
 - `toy_models.py` — Toy retriever and generator for basic testing.
 - `test_dp_sparse_vote_rag.py` — Testing script to demonstrate functionality.
 
-## New: DPSparseVoteRAG Implementation
-
-We added an implementation of the DPSparseVoteRAG algorithm based on the paper "Privacy-Preserving Retrieval-Augmented Generation with Differential Privacy" (2024).
-
-See [dpsparse_vote/](./dpsparse_vote/) for the code and details.
-
 ## References
 
 - "Privacy-Preserving Retrieval-Augmented Generation with Differential Privacy" (Koga, Wu, Chaudhuri, 2024)
