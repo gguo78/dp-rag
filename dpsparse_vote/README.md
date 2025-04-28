@@ -10,7 +10,7 @@ with real LLM models, real retrieval systems, and real datasets (TriviaQA/Natura
 
 ## 📚 Project Structure
 
-- `dp_sparse_vote_rag_v2.py` — Upgraded DPSparseVoteRAG engine.
+- `dp_sparse_vote_rag.py` — Upgraded DPSparseVoteRAG engine.
 - `real_retriever.py` — FAISS + SentenceTransformer retriever.
 - `real_generator.py` — Hugging Face LLM (OPT or LLaMA) based generator.
 - `load_dataset.py` — Load TriviaQA or NaturalQuestions datasets.
