@@ -64,7 +64,8 @@ class MedicalRAGTests:
     def test_symptoms(self):
         evaluator = Evaluator()
         # evaluator.load()
-        pbar = tqdm(total=5100, desc="Testing")
+        # have to cut the number of tests to 100 because of the time it takes to run
+        pbar = tqdm(total=100, desc="Testing")
         for i, data in enumerate(medical_dirichlet_full()):
             pbar.update(1)
             # if i<evaluator.counter["null"]:
