@@ -7,6 +7,7 @@ from dp_model import DPModel, DPGenerationConfig
 from test_data import print_items, medical_dirichlet_documents, medical_dirichlet_full
 from dp_rag_engine import DPRAGEngine, DPGenerationConfig, PUPVectorStore, PUPVectorStoreConfig
 import argparse
+from tqdm import tqdm
 
 class Evaluator:
     def __init__(self):
@@ -62,11 +63,11 @@ class MedicalRAGTests:
 
     def test_symptoms(self):
         evaluator = Evaluator()
-        evaluator.load()
-        for i, data in enumerate(medical_dirichlet_full()):
-            if i<evaluator.counter["null"]:
-                cprint(f"Skip experiment {i} on {evaluator.counter['null']}", "red")
-                continue
+        # evaluator.load()
+        for i, data in enumerate(tqdm(medical_dirichlet_full(), total=5100, desc="Testing")):
+            # if i<evaluator.counter["null"]:
+            #    cprint(f"Skip experiment {i} on {evaluator.counter['null']}", "red")
+            #    continue
             question  = f"I am experiencing the following symptoms: {', '.join(data['symptom'])}. What is my disease?"
             answer = self.dre.dp_chat(question)
             disease = data['disease']
