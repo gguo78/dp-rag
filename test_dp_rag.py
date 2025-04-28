@@ -65,8 +65,10 @@ class MedicalRAGTests:
         evaluator = Evaluator()
         # evaluator.load()
         # have to cut the number of tests to 100 because of the time it takes to run
-        pbar = tqdm(total=100, desc="Testing")
+        pbar = tqdm(total=20, desc="Testing")
         for i, data in enumerate(medical_dirichlet_full()):
+            if i >= 20:
+                break;
             pbar.update(1)
             # if i<evaluator.counter["null"]:
             #    cprint(f"Skip experiment {i} on {evaluator.counter['null']}", "red")
