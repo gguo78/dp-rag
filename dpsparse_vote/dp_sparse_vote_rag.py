@@ -1,4 +1,4 @@
-# dp_sparse_vote_rag_v2.py
+# dp_sparse_vote_rag.py
 
 import random
 import numpy as np
