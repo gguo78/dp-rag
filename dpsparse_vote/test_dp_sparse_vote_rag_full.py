@@ -8,8 +8,8 @@ from load_dataset import load_triviaqa_subset
 # Load TriviaQA subset
 questions, answers = load_triviaqa_subset(split='validation', num_samples=50)
 
-# Prepare the corpus (fake for now: use answers themselves as "documents")
-documents = answers  # In real case, you'd use a real corpus like Wikipedia
+# Using answers themselves as "documents"
+documents = answers  
 
 # Initialize real retriever and generator
 retriever = RealRetriever(documents)
