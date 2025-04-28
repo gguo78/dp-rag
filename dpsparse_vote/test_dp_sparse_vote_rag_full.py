@@ -8,7 +8,7 @@ from load_dataset import load_triviaqa_subset
 # Load TriviaQA subset
 questions, answers = load_triviaqa_subset(split='validation', num_samples=50)
 
-# Using answers themselves as "documents"
+# Using answers themselves as documents
 documents = answers  
 
 # Initialize real retriever and generator
