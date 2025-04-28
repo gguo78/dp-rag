@@ -6,6 +6,7 @@ from pup_vector_store import PUPVectorStore, PUPVectorStoreConfig
 from dp_model import DPModel, DPGenerationConfig
 from test_data import print_items, medical_dirichlet_documents, medical_dirichlet_full
 from dp_rag_engine import DPRAGEngine, DPGenerationConfig, PUPVectorStore, PUPVectorStoreConfig
+import argparse
 
 class Evaluator:
     def __init__(self):
@@ -19,13 +20,12 @@ class Evaluator:
         self.counter[json.dumps(("symptoms", disease,))] += 1
         self.counter[json.dumps(("symptoms", disease, epsilon, "success"))] += 1 if success else 0
     
-    def dump(self):
+    def dump(self, epsilon_tag=None):
         os.makedirs('results', exist_ok=True)
-        with open(f"results/{self.counter[json.dumps(None)]}_evaluation.json", 'w') as f:
+        filename = f"evaluation_eps_{epsilon_tag}.json" if epsilon_tag else "evaluation.json"
+        with open(f"results/{filename}", 'w') as f:
             json.dump(self.counter, f, indent=2)
-        with open(f"results/evaluation.json", 'w') as f:
-            json.dump(self.counter, f, indent=2)
-    
+            
     def load(self):
         try:
             with open(f"results/evaluation.json", 'r') as f:
@@ -35,7 +35,7 @@ class Evaluator:
 
 
 class MedicalRAGTests:
-    def __init__(self):
+    def __init__(self, epsilon=0.5):
         # Use data from Huggingface
         self.docs = medical_dirichlet_documents()
         # Setup the DP RAG Engine
@@ -44,7 +44,7 @@ class MedicalRAGTests:
                 # top_k = 5,
                 # epsilon=0.1,
                 top_p = 0.02,
-                epsilon=0.5,
+                epsilon=epsilon,
                 # differential_pivacy=False,
             ),
             dp_generation_config=DPGenerationConfig(
@@ -52,7 +52,7 @@ class MedicalRAGTests:
                 max_new_tokens=70,
                 alpha = 1.0,
                 omega = 0.01,
-                epsilon = 5.0,
+                epsilon = epsilon,
                 # differential_pivacy=False,
             ),
         )
@@ -88,6 +88,11 @@ class MedicalRAGTests:
 
 
 if __name__ == "__main__":
-    # Launch this with 'nohup python test_dp_rag.py 2>&1 | tee -a out/output.log &'
-    mrt = MedicalRAGTests()
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--epsilon", type=float, default=0.5)
+    args = parser.parse_args()
+
+    cprint(f"Testing for epsilon={args.epsilon}", "cyan")
+
+    mrt = MedicalRAGTests(epsilon=args.epsilon)
     mrt.test_symptoms()

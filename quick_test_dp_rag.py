@@ -10,6 +10,7 @@ from dp_rag_engine import DPRAGEngine, DPGenerationConfig, PUPVectorStoreConfig
 class QuickEvaluator:
     def __init__(self):
         self.counter = Counter()
+        # global accuracy counter
         self.total = 0
         self.successes = 0
         
