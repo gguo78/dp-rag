@@ -68,7 +68,7 @@ This will:
 
 ## 📖 References
 
-- Koga, Wu, and Chaudhuri (2024). *Privacy-Preserving Retrieval-Augmented Generation with Differential Privacy*. [arXiv:2412.19291](https://arxiv.org/abs/2412.19291)
+- Koga, Wu, and Chaudhuri (2024). *Privacy-Preserving Retrieval-Augmented Generation with Differential Privacy*. [arXiv:2412.19291](https://arxiv.org/pdf/2412.04697)
 
 ---
 
