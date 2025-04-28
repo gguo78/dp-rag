@@ -183,6 +183,8 @@ Possible choices are:
         doc_score_pairs = sorted(doc_score_pairs, key=lambda x: x[1], reverse=True)
         retrieved = [doc for doc, score in doc_score_pairs if score > score_threshold]
         return random.sample(retrieved, min(len(retrieved), self.max_retrieve))
+    def retrieve(self, query: str) -> list[str]:
+        return self.pup_retrieve(query)
 
 
 def main():
