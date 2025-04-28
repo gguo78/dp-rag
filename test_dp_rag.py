@@ -64,7 +64,9 @@ class MedicalRAGTests:
     def test_symptoms(self):
         evaluator = Evaluator()
         # evaluator.load()
-        for i, data in enumerate(tqdm(medical_dirichlet_full(), total=5100, desc="Testing")):
+        pbar = tqdm(total=5100, desc="Testing")
+        for i, data in enumerate(medical_dirichlet_full()):
+            pbar.update(1)
             # if i<evaluator.counter["null"]:
             #    cprint(f"Skip experiment {i} on {evaluator.counter['null']}", "red")
             #    continue
