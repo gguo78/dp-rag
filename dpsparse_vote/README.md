@@ -1,4 +1,4 @@
-# DPSparseVoteRAG - Full Research-Grade Setup
+# DPSparseVoteRAG
 
 This project implements a full experimental pipeline based on the paper:
 
@@ -72,6 +72,3 @@ This will:
 
 ---
 
-## 👨‍💻 Authors
-
-- Michael Pocress and team (Spring 2025)
