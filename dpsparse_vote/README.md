@@ -1,39 +1,77 @@
-# DPSparseVoteRAG
+# DPSparseVoteRAG - Full Research-Grade Setup
 
-A simple Python implementation of the "Privacy-Preserving Retrieval-Augmented Generation with Differential Privacy" paper, specifically the DPSparseVoteRAG variant.
+This project implements a full experimental pipeline based on the paper:
 
-## Project Overview
+> *"Privacy-Preserving Retrieval-Augmented Generation with Differential Privacy" (Koga, Wu, Chaudhuri, 2024)*
 
-This project implements DPSparseVoteRAG, a differentially private retrieval-augmented generation (RAG) system that:
-- Retrieves domain-specific documents.
-- Checks if generated tokens rely on sensitive information.
-- Smartly spends privacy budget only when necessary.
+with real LLM models, real retrieval systems, and real datasets (TriviaQA/NaturalQuestions).
 
-This work is inspired by the 2024 paper by Koga, Wu, and Chaudhuri.
+---
 
-## Installation
+## 📚 Project Structure
+
+- `dp_sparse_vote_rag_v2.py` — Upgraded DPSparseVoteRAG engine.
+- `real_retriever.py` — FAISS + SentenceTransformer retriever.
+- `real_generator.py` — Hugging Face LLM (OPT or LLaMA) based generator.
+- `load_dataset.py` — Load TriviaQA or NaturalQuestions datasets.
+- `test_dp_sparse_vote_rag_full.py` — Full experimental evaluation script.
+
+---
+
+## 🛠 Installation
 
 ```bash
-git clone <repo-url>
-cd dp_sparse_vote_rag
-pip install numpy
+pip install numpy datasets faiss-cpu transformers sentence-transformers
 ```
+(Use `faiss-gpu` instead of `faiss-cpu` if you have GPU.)
 
-## Running Tests
+---
+
+## 📄 Running the Full Experiment
 
 ```bash
-python test_dp_sparse_vote_rag.py
+python test_dp_sparse_vote_rag_full.py
 ```
 
-This runs a simple test using toy retriever and generator models to demonstrate the DPSparseVoteRAG system.
+This will:
+- Load a subset of TriviaQA dataset
+- Build a FAISS retriever over documents
+- Use a Hugging Face OPT-1.3B model to generate answers
+- Apply DPSparseVoteRAG for private token generation
+- Output several generated answers
 
-## Project Structure
+---
 
-- `dp_sparse_vote_rag.py` — Main DPSparseVoteRAG engine.
-- `toy_models.py` — Toy retriever and generator for basic testing.
-- `test_dp_sparse_vote_rag.py` — Testing script to demonstrate functionality.
+## ⚙️ Requirements
 
-## References
+- Python 3.9+
+- 16GB RAM minimum (recommended)
+- GPU recommended for faster model inference (OPT models)
 
-- "Privacy-Preserving Retrieval-Augmented Generation with Differential Privacy" (Koga, Wu, Chaudhuri, 2024)
+---
 
+## 📢 Notes
+
+- We use simplified document corpus (e.g., answers only) for retrieval testing.
+- The DPSparseVoteRAG pipeline follows Algorithm 2 in the original paper.
+- This setup allows formal evaluation experiments similar to the paper.
+
+---
+
+## 🧠 Future Extensions
+
+- Replace synthetic retrieval documents with full Wikipedia corpus.
+- Expand testing to full TriviaQA/NQ datasets.
+- Evaluate Match Accuracy, BLEU, privacy budget consumption.
+
+---
+
+## 📖 References
+
+- Koga, Wu, and Chaudhuri (2024). *Privacy-Preserving Retrieval-Augmented Generation with Differential Privacy*. [arXiv:2412.19291](https://arxiv.org/abs/2412.19291)
+
+---
+
+## 👨‍💻 Authors
+
+- Michael Pocress and team (Spring 2025)
