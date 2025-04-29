@@ -7,7 +7,7 @@ This folder implements the **DPSparseVoteRAG** algorithm described in the paper:
 The DPSparseVoteRAG engine integrates into our existing RAG pipeline using:
 - The same `PupRetriever` retriever
 - The same `SimpleGenerator` generator
-- Our current synthetic dataset (medical documents)
+- Our current dataset
 
 Privacy budget is spent only when necessary using a noisy threshold comparison against non-private token outputs, as described in Algorithm 2 of the paper.
 
@@ -17,7 +17,6 @@ Privacy budget is spent only when necessary using a noisy threshold comparison a
 
 - `dp_sparse_vote_rag_engine.py` — DPSparseVoteRAG engine compatible with the group's retriever and generator.
 - `test_dp_sparse_vote_rag.py` — Test script that evaluates DPSparseVoteRAG and saves results to `results/evaluation.json`.
-- `results/evaluation.json` — Evaluation results including accuracy and detailed generated answers (generated after running the test).
 
 ---
 

@@ -15,7 +15,6 @@ generation_epsilon = 10.0
 max_tokens = 30
 threshold = 0.5
 
-# Load dataset
 dataset = Dataset(num_patients=50, num_diseases=10)  # adjust numbers as needed
 rows = list(dataset.rows())[:num_questions]
 
@@ -30,9 +29,8 @@ vector_store = PUPVectorStore(PUPVectorStoreConfig(top_p=0.02, epsilon=0.2))
 for doc in documents:
     vector_store.add(doc)
 
-# Now retriever will be this vector_store
+# Retriever will be this vector_store
 retriever = vector_store
-
 generator = Model()
 
 # Initialize DPSparseVoteRAGEngine
