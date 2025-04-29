@@ -63,17 +63,15 @@ class MedicalRAGTests:
 
     def test_symptoms(self):
         evaluator = Evaluator()
-        # evaluator.load()
-        # have to cut the number of tests to 100 because of the time it takes to run
+        os.makedirs('out', exist_ok=True)
+        os.makedirs('results', exist_ok=True)
         pbar = tqdm(total=20, desc="Testing")
+        
         for i, data in enumerate(medical_dirichlet_full()):
             if i >= 20:
-                break;
+                break
             pbar.update(1)
-            # if i<evaluator.counter["null"]:
-            #    cprint(f"Skip experiment {i} on {evaluator.counter['null']}", "red")
-            #    continue
-            question  = f"I am experiencing the following symptoms: {', '.join(data['symptom'])}. What is my disease?"
+            question = f"I am experiencing the following symptoms: {', '.join(data['symptom'])}. What is my disease?"
             answer = self.dre.dp_chat(question)
             disease = data['disease']
             count = evaluator.counter[json.dumps(("*", "*"))]
@@ -84,14 +82,17 @@ class MedicalRAGTests:
             epsilon = round(self.dre.privacy_loss_distribution.get_epsilon_for_delta(0.001), 1)
             cprint(answer, 'green' if success else 'red')
             evaluator.symptoms(disease, epsilon, success)
-            if (count+1) % 100 == 0:
-                evaluator.dump()
-            if (count+1) % 50 == 0:
-                cprint(json.dumps(evaluator.counter, indent=2), 'dark_grey')
-        with open(f'out/test_symptoms_{count}.json', 'w') as f:
-            evaluator.dump()
-        cprint(evaluator, "yellow")
-
+            
+        epsilon_tag = round(self.dre.privacy_loss_distribution.get_epsilon_for_delta(0.001), 1)
+        evaluation_filename = f'results/evaluation_eps_{epsilon_tag}.json'
+        out_filename = f'out/test_symptoms_eps_{epsilon_tag}.json'
+        
+        with open(evaluation_filename, 'w') as f:
+            json.dump(evaluator.counter, f, indent=2)
+        with open(out_filename, 'w') as f:
+            json.dump(evaluator.counter, f, indent=2)
+        
+        cprint(f"Saved evaluation to {evaluation_filename} and {out_filename}", "green")
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
