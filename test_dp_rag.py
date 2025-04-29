@@ -65,10 +65,10 @@ class MedicalRAGTests:
         evaluator = Evaluator()
         os.makedirs('out', exist_ok=True)
         os.makedirs('results', exist_ok=True)
-        pbar = tqdm(total=20, desc="Testing")
+        pbar = tqdm(total=100, desc="Testing")
         
         for i, data in enumerate(medical_dirichlet_full()):
-            if i >= 20:
+            if i >= 100:
                 break
             pbar.update(1)
             question = f"I am experiencing the following symptoms: {', '.join(data['symptom'])}. What is my disease?"
