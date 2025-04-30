@@ -42,7 +42,7 @@ class QuickEvaluator:
 
 
 class QuickMedicalRAGTest:
-    def __init__(self, num_docs=20):
+    def __init__(self, num_docs=50):
         # Print device info
         cprint(f"Using device: {'cuda' if torch.cuda.is_available() else 'cpu'}", "yellow")
         
