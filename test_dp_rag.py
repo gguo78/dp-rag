@@ -42,7 +42,7 @@ class MedicalRAGTests:
                 max_new_tokens=70,
                 alpha=1.0,
                 omega=0.01,
-                epsilon=epsilon,
+                epsilon=epsilon
             ),
         )
         for doc in self.docs:
