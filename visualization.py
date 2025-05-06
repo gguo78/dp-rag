@@ -44,7 +44,7 @@ def extract_disease_data(evaluation_data, epsilon):
     return pd.DataFrame(diseases)
 
 def load_all_data():
-    epsilon_values = [0.001, 0.008, 0.028, 0.098, 0.248]
+    epsilon_values = [0.001, 0.008, 0.028, 0.098, 0.248, 5.299, 9.999]
     results_data = {}
     all_disease_data = []
 
@@ -93,6 +93,7 @@ def plot_overall_success_rate(df):
                      textcoords="offset points", 
                      xytext=(0,10), 
                      ha='center',
+                     fontsize = 8, 
                      bbox=dict(boxstyle="round,pad=0.3", fc="white", ec="gray", alpha=0.8))
     
     plt.tight_layout()
@@ -108,7 +109,7 @@ def plot_disease_success_rates(df):
     
     top_df = df[df['disease'].isin(top_diseases)]
     
-    fig, axes = plt.subplots(1, 5, figsize=(24, 10), sharey=True)
+    fig, axes = plt.subplots(1, 7, figsize=(24, 10), sharey=True)
     epsilon_values = sorted(df['epsilon'].unique())
     
     viridis = plt.cm.viridis
