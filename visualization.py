@@ -151,7 +151,7 @@ def plot_disease_success_rates(df):
     axes[0].set_ylabel('Disease (Total Count)')
     
     plt.suptitle('Success Rate by Disease for Different Privacy Budgets (ε)', fontsize=16)
-    plt.tight_layout(rect=[0, 0, 1, 0.95])  # Adjust layout to make room for suptitle
+    plt.tight_layout(rect=[0, 0, 1, 0.95])  
     plt.savefig('visualization/disease_success_rates_by_count.png', dpi=300)
     plt.close()
 
@@ -193,8 +193,82 @@ def plot_heatmap(df):
     plt.savefig('visualization/success_rate_heatmap.png', dpi=300)
     plt.close()
 
+def plot_low_count_disease_success_rates(df):
+    # This plot shows the success rate for diseases with the lowest total counts
+    # ordered by increasing values (The lowest count disease is at the top bar.)
+
+    disease_counts = df.groupby('disease')['total_count'].sum().sort_values(ascending=True)
+    lowest_diseases = disease_counts.head(15).index.tolist()  # Get the lowest 5 diseases
+    
+    lowest_df = df[df['disease'].isin(lowest_diseases)]
+    
+    fig, axes = plt.subplots(1, 7, figsize=(24, 10), sharey=True)
+    epsilon_values = sorted(df['epsilon'].unique())
+    
+    viridis = plt.cm.viridis
+    colors = viridis(np.linspace(0.0, 0.8, 256))  
+    cmap = LinearSegmentedColormap.from_list('dark_viridis', colors)
+    
+    plot_diseases = lowest_diseases.copy()
+    
+    y_positions = range(len(plot_diseases))
+    
+    for i, eps in enumerate(epsilon_values):
+        eps_df = lowest_df[lowest_df['epsilon'] == eps]
+        
+        plot_data = []
+        for disease in plot_diseases:
+            disease_row = eps_df[eps_df['disease'] == disease]
+            if not disease_row.empty:
+                success_rate = disease_row['success_rate'].values[0]
+                count = disease_row['total_count'].values[0]
+            else:
+                success_rate = 0
+                count = 0
+            plot_data.append({'disease': disease, 'success_rate': success_rate, 'total_count': count})
+        
+        plot_df = pd.DataFrame(plot_data)
+        
+        bars = axes[i].barh(y_positions, plot_df['success_rate'], height=0.7, 
+                    color=[cmap(rate) for rate in plot_df['success_rate']])
+        
+        axes[i].set_title(f'ε = {eps}', fontsize=14)
+        axes[i].set_xlabel('Success Rate')
+        axes[i].grid(True, alpha=0.3, axis='x')
+    
+    y_labels = [f"{disease} ({int(disease_counts[disease])})" for disease in plot_diseases]
+    
+    axes[0].set_yticks(y_positions)
+    axes[0].set_yticklabels(y_labels)
+    axes[0].set_ylabel('Disease (Total Count)')
+    
+    plt.suptitle('Success Rate by Disease for Lowest Total Counts Across Different Privacy Budgets (ε)', fontsize=16)
+    plt.tight_layout(rect=[0, 0, 1, 0.95])  
+    plt.savefig('visualization/low_count_disease_success_rates.png', dpi=300)
+    plt.close()
+
+def plot_accuracy_vs_count(df):
+    # scatter plot for success rate vs. number of counts
+    # each subplot is for different epsilon values
+    epsilon_values = sorted(df['epsilon'].unique())
+    
+    fig, axes = plt.subplots(1, 7, figsize=(28, 5), sharey=True)
+    
+    for i, eps in enumerate(epsilon_values):
+        eps_df = df[df['epsilon'] == eps]
+
+        axes[i].scatter(eps_df['total_count'], eps_df['success_rate'], alpha=0.7)
+        axes[i].set_title(f'ε = {eps}', fontsize=12)
+        axes[i].set_xlabel('# of Counts')
+        axes[i].set_ylabel('Accuracy (Success Rate)' if i == 0 else '')  
+        axes[i].grid(True, alpha=0.3)
+    
+    plt.suptitle('Accuracy vs. Number of Counts for Different Epsilon Values', fontsize=16)
+    plt.tight_layout(rect=[0, 0, 1, 0.95])  
+    plt.savefig('visualization/accuracy_vs_count.png', dpi=300)
+    plt.close()
+
 def main():
-    """Main function to generate all visualizations"""
     print("Loading data...")
     df = load_all_data()
     
@@ -205,6 +279,8 @@ def main():
     plot_disease_success_rates(df)
     plot_count_distribution(df)
     plot_heatmap(df)
+    plot_low_count_disease_success_rates(df)
+    plot_accuracy_vs_count(df)
     
     print("Visualizations complete. Output saved to PNG files in /visualization.")
 
