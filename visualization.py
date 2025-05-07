@@ -158,15 +158,16 @@ def plot_disease_success_rates(df):
 def plot_count_distribution(df):
     # shows the distribution of all diseases count
     # unable to show all diseases name - just for a general understanding of the distribution
-    disease_counts = df.groupby('disease')['total_count'].sum().sort_values(ascending=False).reset_index()
+    disease_counts = df.groupby('disease')['total_count'].sum().reset_index()
     
     plt.figure(figsize=(14, 8))
     
-    plt.bar(range(len(disease_counts)), disease_counts['total_count'])
-    plt.xticks([]) 
-    plt.xlabel('Diseases (sorted by count)')
-    plt.ylabel('Total Count')
-    plt.title('Distribution of Disease Counts')
+    plt.hist(disease_counts['total_count'], bins=30, alpha=0.7, edgecolor='black')
+    
+    plt.xlabel('Total Count')
+    plt.ylabel('Frequency')
+    plt.title('Histogram of Disease Counts Distribution')
+    
     
     plt.tight_layout()
     plt.savefig('visualization/disease_count_distribution.png', dpi=300)
@@ -252,18 +253,22 @@ def plot_accuracy_vs_count(df):
     # each subplot is for different epsilon values
     epsilon_values = sorted(df['epsilon'].unique())
     
-    fig, axes = plt.subplots(1, 7, figsize=(28, 5), sharey=True)
+    fig, axes = plt.subplots(2, 4, figsize=(20, 10), sharey=True)
     
+    axes = axes.flatten()
     for i, eps in enumerate(epsilon_values):
         eps_df = df[df['epsilon'] == eps]
 
         axes[i].scatter(eps_df['total_count'], eps_df['success_rate'], alpha=0.7)
         axes[i].set_title(f'ε = {eps}', fontsize=12)
         axes[i].set_xlabel('# of Counts')
-        axes[i].set_ylabel('Accuracy (Success Rate)' if i == 0 else '')  
+        axes[i].set_ylabel('Accuracy (Success Rate)' if i % 4 == 0 else '')  
         axes[i].grid(True, alpha=0.3)
+
+    for j in range(len(epsilon_values), len(axes)):
+        axes[j].axis('off')
     
-    plt.suptitle('Accuracy vs. Number of Counts for Different Epsilon Values', fontsize=16)
+    plt.suptitle('Accuracy vs. Number of Counts for Different Epsilon Values', fontsize=20)
     plt.tight_layout(rect=[0, 0, 1, 0.95])  
     plt.savefig('visualization/accuracy_vs_count.png', dpi=300)
     plt.close()
